@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="jvm-2.5">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../TarsosDSP-master/jvm-2.5.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>
