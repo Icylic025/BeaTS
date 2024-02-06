@@ -246,4 +246,5 @@ public class BeatPerMinDetection {
 
         return segments;
     }
+    // add this line to test
 }
