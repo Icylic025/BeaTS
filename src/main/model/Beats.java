@@ -1,57 +1,140 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import be.tarsos.dsp.AudioDispatcher;
+import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
+import be.tarsos.dsp.onsets.ComplexOnsetDetector;
 
-public class BeatPerMinDetection {
+import java.io.File;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-    public static void main(String[] args) {
+public class Beats {
+    private List<Double> beats = new ArrayList<Double>();
+    private int bpm;
+
+    public Beats(String path) {
+        beats = filterTimeList(calculateBeats(path));
+        bpm = calculateBeatsPerMin((ArrayList<Double>) beats);
+    }
+
+    public int getBpm() {
+        return bpm;
+    }
+
+    public List<Double> getBeats() {
+        return beats;
+    }
+
+    private List<Double> calculateBeats(String path) {
+        List<Double> timeList = new ArrayList<>();
+        try {
+            String audioFilePath = "D:/Kylie/Bangtan/Music/" + path + ".wav"; // Replace with your audio file path
+            File audioFile = new File(audioFilePath);
+
+            int bufferSize = 2048;
+            int overlap = 1024;
+
+            AudioDispatcher dispatcher = AudioDispatcherFactory.fromFile(audioFile, bufferSize, overlap);
+
+            double threshold = 0.25;
+            ComplexOnsetDetector onsetDetector = new ComplexOnsetDetector(bufferSize, threshold);
+
+            // Create an ExecutorService with a single worker thread
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+
+            // Submit the audio processing task to the executor
+            Future<?> future = executor.submit(() -> {
+                // Set the handler for detected onsets
+                onsetDetector.setHandler((time, salience) -> handleOnset(time, salience, timeList));
+                dispatcher.addAudioProcessor(onsetDetector);
+                dispatcher.run(); // Start processing the audio
+            });
+
+            // Wait for the audio processing task to complete
+            future.get();
+
+            // Shutdown the executor
+            executor.shutdown();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(timeList);
+        return timeList; // Ensure this is the correctly populated list
+    }
+
+    private void handleOnset(double time, double salience, List<Double> timeList) {
+        synchronized (timeList) {
+            timeList.add(time);
+        }
+    }
+
+    private List<Double> filterTimeList(List<Double> timeList) {
+        double prev = -1; // Initialize to an invalid value
+        double minInterval = 0.15; // Minimum interval between beats
+        List<Double> filteredList = new ArrayList<>();
+
+        for (Double time : timeList) {
+            if (prev < 0 || time - prev >= minInterval) {
+                filteredList.add(time);
+                prev = time;
+            }
+        }
+
+        return filteredList;
+    }
+
+    private int calculateBeatsPerMin(ArrayList<Double> timeList) {
         int finalBPM = 0;
-        ArrayList<Double> onsetTimes = new ArrayList<>(); // Populate this with your onset times
-        BeatDetection beats = new BeatDetection();
-        beats.calculateTime();
-        // System.out.println(beatTime);
-        beats.filterTimeList();
-        onsetTimes = (ArrayList<Double>) beats.getTimeList();
 
-        List<List<Double>> dividedSegments = divideMiddleBeats(onsetTimes);
+        List<List<Double>> dividedSegments = divideMiddleBeats(timeList);
 
         // Calculate BPM for different sections of the song
-        double first16BPM = processBeatsForBPM(getFirstOrLast16Beats(onsetTimes, true));
-        double last16BPM = processBeatsForBPM(getFirstOrLast16Beats(onsetTimes, false));
-        double middleBPM = processBeatsForBPM(getMiddleBeats(onsetTimes));
+        double first16BPM = processBeatsForBPM(getFirstOrLast16Beats(timeList, true));
+        double last16BPM = processBeatsForBPM(getFirstOrLast16Beats(timeList, false));
+        double middleBPM = processBeatsForBPM(getMiddleBeats(timeList));
 
-        List bpmSegments = new ArrayList<Double>();
+        List<Double> rateFragments = new ArrayList<>();
 
-        // System.out.println("First 16 Beats BPM: " + first16BPM);
-        // System.out.println("Last 16 Beats BPM: " + last16BPM);
-        // System.out.println("Middle Section BPM: " + middleBPM);
+        System.out.println("First 16 Beats BPM: " + first16BPM);
+        System.out.println("Last 16 Beats BPM: " + last16BPM);
+        System.out.println("Middle Section BPM: " + middleBPM);
 
         for (int i = 0; i < dividedSegments.size(); i++) {
             double bpm = processBeatsForBPM(dividedSegments.get(i));
             System.out.println("Segment " + (i + 1) + " BPM: " + bpm);
-            bpmSegments.add(bpm);
+            rateFragments.add(bpm);
         }
+        rateFragments.add(first16BPM);
+        rateFragments.add(last16BPM);
+        rateFragments.add(middleBPM);
+        System.out.println(rateFragments);
 
-        bpmSegments.add(first16BPM);
-        bpmSegments.add(last16BPM);
-        bpmSegments.add(middleBPM);
-        //  System.out.println(bpmSegments);
-
-        finalBPM = proccessFinalBPM((ArrayList<Double>) bpmSegments);
+        finalBPM = proccessFinalBPM((ArrayList<Double>) rateFragments);
         System.out.println("THE FINAL BPM CALCULATED IS: " + finalBPM);
+
+        return finalBPM;
     }
+
 
     @SuppressWarnings("methodlength")
     private static int proccessFinalBPM(ArrayList<Double> list) {
         int mode =  (int) Math.round(findMode(list));
-        int[] numBpm = commonBpm(list);
-        int rangeBelow90 = numBpm[0];
-        int range90To120 = numBpm[1];
-        int rangeGreater120 = numBpm[2];
+        int rangeBelow90 = 0;
+        int range90To120 = 0;
+        int rangeGreater120 = 0;
+        for (Object i : list) {
+            if ((double) i <= 90) {
+                rangeBelow90++;
+            } else if ((double) i <= 120 && (double) i >= 90) {
+                range90To120++;
+            } else if ((double) i >= 120) {
+                rangeGreater120++;
+            }
+
+        }
 
         if (rangeBelow90 > range90To120 && rangeBelow90 > rangeGreater120) {
             while (mode >= 90) {
@@ -76,29 +159,6 @@ public class BeatPerMinDetection {
 
 
         return mode;
-    }
-
-    public static int[] commonBpm(ArrayList<Double> list) {
-        int rangeBelow90 = 0;
-        int range90To120 = 0;
-        int rangeGreater120 = 0;
-
-        int [] arr = new int[3];
-        for (Object i : list) {
-            if ((double) i <= 90) {
-                rangeBelow90++;
-            } else if ((double) i <= 120 && (double) i >= 90) {
-                range90To120++;
-            } else if ((double) i >= 120) {
-                rangeGreater120++;
-            }
-
-        }
-        arr[0] = rangeBelow90;
-        arr[1] = range90To120;
-        arr[2] = rangeGreater120;
-
-        return arr;
     }
 
     public static double findMode(ArrayList<Double> list) {
@@ -156,7 +216,7 @@ public class BeatPerMinDetection {
         List<Double> filteredIntervals = removeOutliers(intervals);
         Map<Double, Integer> intervalClusters = clusterIntervals(filteredIntervals);
 
-        return calculateClustersBpm(intervalClusters);
+        return calculateRateFromClusters(intervalClusters);
     }
 
     private static List<Double> removeOutliers(List<Double> intervals) {
@@ -207,7 +267,7 @@ public class BeatPerMinDetection {
         return Math.round(value / precision) * precision;
     }
 
-    private static double calculateClustersBpm(Map<Double, Integer> clusters) {
+    private static double calculateRateFromClusters(Map<Double, Integer> clusters) {
         if (clusters.isEmpty()) {
             return 0; // No data to calculate BPM
         }
@@ -236,9 +296,7 @@ public class BeatPerMinDetection {
         List<List<Double>> segments = new ArrayList<>();
         int start = 0;
         for (int i = 0; i < 8; i++) {
-
-            // Add 1 to the segment size for the first 'remainder' segments
-            int segmentSize = baseSize + (i < remainder ? 1 : 0);
+            int segmentSize = baseSize + (i < remainder ? 1 : 0); // Add 1 to the segment size for the first 'remainder'
             List<Double> segment = new ArrayList<>(middleBeats.subList(start, start + segmentSize));
             segments.add(segment);
             start += segmentSize;
@@ -246,5 +304,5 @@ public class BeatPerMinDetection {
 
         return segments;
     }
-    // add this line to test
+
 }
