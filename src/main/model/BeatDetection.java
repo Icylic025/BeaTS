@@ -1,4 +1,5 @@
 package model;
+
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
 import be.tarsos.dsp.onsets.ComplexOnsetDetector;
@@ -18,6 +19,7 @@ public class BeatDetection {
     public double getStartTime() {
         return startTime;
     }
+
     public void calculateTime() {
         try {
             String audioFilePath = "D:/Kylie/Bangtan/Music/So Far Away.wav"; // Replace with your audio file path
