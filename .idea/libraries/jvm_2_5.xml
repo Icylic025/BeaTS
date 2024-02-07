@@ -1,6 +1,8 @@
 <component name="libraryTable">
   <library name="jvm-2.5">
-    <CLASSES />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/spec/jvm-2.5.jar!/" />
+    </CLASSES>
     <JAVADOC />
     <SOURCES />
   </library>
