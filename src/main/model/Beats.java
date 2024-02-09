@@ -30,7 +30,7 @@ public class Beats {
     private List<Double> calculateBeats(String path) {
         List<Double> timeList = new ArrayList<>();
         try {
-            String audioFilePath = "D:/Kylie/Bangtan/Music/" + path + ".wav"; // Replace with your audio file path
+            String audioFilePath = path; // Replace with your audio file path
             File audioFile = new File(audioFilePath);
 
             int bufferSize = 2048;
@@ -61,7 +61,7 @@ public class Beats {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(timeList);
+        // System.out.println(timeList);
         return timeList; // Ensure this is the correctly populated list
     }
 
@@ -98,13 +98,13 @@ public class Beats {
 
         List<Double> rateFragments = new ArrayList<>();
 
-        System.out.println("First 16 Beats BPM: " + first16BPM);
-        System.out.println("Last 16 Beats BPM: " + last16BPM);
-        System.out.println("Middle Section BPM: " + middleBPM);
+        // System.out.println("First 16 Beats BPM: " + first16BPM);
+        // System.out.println("Last 16 Beats BPM: " + last16BPM);
+        // System.out.println("Middle Section BPM: " + middleBPM);
 
         for (int i = 0; i < dividedSegments.size(); i++) {
             double bpm = processBeatsForBPM(dividedSegments.get(i));
-            System.out.println("Segment " + (i + 1) + " BPM: " + bpm);
+           // System.out.println("Segment " + (i + 1) + " BPM: " + bpm);
             rateFragments.add(bpm);
         }
         rateFragments.add(first16BPM);
