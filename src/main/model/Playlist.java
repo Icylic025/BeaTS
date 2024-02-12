@@ -55,6 +55,9 @@ public class Playlist {
     }
 
 
+    public void playSong(int index) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        songs.get(index).playSong();
+    }
 
     public void addSong(Song s) {
         songs.add(s);
@@ -64,10 +67,24 @@ public class Playlist {
         songs.remove(i);
     }
 
-    public void shuffle() {
+    public Playlist shuffle() {
+        ArrayList<Song> shuffledList = new ArrayList<Song>();
         Collections.shuffle(songs);
+
+        for (Song s : songs) {
+            shuffledList.add(s);
+        }
+
+        return new Playlist(shuffledList);
     }
 
+    public ArrayList<Song> getSongs() {
+        return songs;
+    }
+
+    public int getSize() {
+        return songs.size();
+    }
 }
 
 

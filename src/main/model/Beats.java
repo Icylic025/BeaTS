@@ -89,76 +89,76 @@ public class Beats {
     private int calculateBeatsPerMin(ArrayList<Double> timeList) {
         int finalBPM = 0;
 
+        // Divide the middle beats into 8 segments
         List<List<Double>> dividedSegments = divideMiddleBeats(timeList);
 
-        // Calculate BPM for different sections of the song
-        double first16BPM = processBeatsForBPM(getFirstOrLast16Beats(timeList, true));
-        double last16BPM = processBeatsForBPM(getFirstOrLast16Beats(timeList, false));
-        double middleBPM = processBeatsForBPM(getMiddleBeats(timeList));
+        List<Double> segmentBPMs = new ArrayList<>();
 
-        List<Double> rateFragments = new ArrayList<>();
-
-        // System.out.println("First 16 Beats BPM: " + first16BPM);
-        // System.out.println("Last 16 Beats BPM: " + last16BPM);
-        // System.out.println("Middle Section BPM: " + middleBPM);
-
-        for (int i = 0; i < dividedSegments.size(); i++) {
-            double bpm = processBeatsForBPM(dividedSegments.get(i));
-           // System.out.println("Segment " + (i + 1) + " BPM: " + bpm);
-            rateFragments.add(bpm);
+        // Calculate BPM for each segment
+        for (List<Double> segment : dividedSegments) {
+            double bpm = processBeatsForBPM(segment);
+            segmentBPMs.add(bpm);
         }
-        rateFragments.add(first16BPM);
-        rateFragments.add(last16BPM);
-        rateFragments.add(middleBPM);
-        System.out.println(rateFragments);
 
-        finalBPM = proccessFinalBPM((ArrayList<Double>) rateFragments);
-        System.out.println("THE FINAL BPM CALCULATED IS: " + finalBPM);
+        // Adjust BPMs for doubles, halves, and multiples
+        adjustBPMs(segmentBPMs);
 
+        // Filter out segments that deviate significantly from the expected tempo
+        List<Double> filteredBPMs = filterSegments(segmentBPMs);
+
+        // Calculate final BPM as the average of filtered segment BPMs
+        finalBPM = calculateAverageBPM(filteredBPMs);
+
+        // Optionally, you can apply further post-processing or adjustments to finalBPM here
+
+        if (finalBPM >= 200) {
+            finalBPM /= 2;
+        }
         return finalBPM;
     }
 
-
-    @SuppressWarnings("methodlength")
-    private static int proccessFinalBPM(ArrayList<Double> list) {
-        int mode =  (int) Math.round(findMode(list));
-        int rangeBelow90 = 0;
-        int range90To120 = 0;
-        int rangeGreater120 = 0;
-        for (Object i : list) {
-            if ((double) i <= 90) {
-                rangeBelow90++;
-            } else if ((double) i <= 120 && (double) i >= 90) {
-                range90To120++;
-            } else if ((double) i >= 120) {
-                rangeGreater120++;
-            }
-
+    private int calculateAverageBPM(List<Double> bpmList) {
+        if (bpmList.isEmpty()) {
+            return 0; // Return 0 if the list is empty
         }
 
-        if (rangeBelow90 > range90To120 && rangeBelow90 > rangeGreater120) {
-            while (mode >= 90) {
-                mode /= 2;
-            }
-        } else if (range90To120 >= rangeBelow90 && range90To120 >= rangeGreater120) {
-            if (mode >= 120) {
-                while (mode >= 120) {
-                    mode /= 2;
-                }
-            } else {
-                while (mode <= 120) {
-                    mode *= 2;
-                }
-            }
-        } else {
-            while (mode <= 120) {
-                mode *= 2;
-            }
+        double sum = 0;
+        for (double bpm : bpmList) {
+            sum += bpm;
+        }
+        return (int) Math.round(sum / bpmList.size());
+    }
 
+    private void adjustBPMs(List<Double> bpmList) {
+        double mode = findMode((ArrayList<Double>) bpmList);
+        for (int i = 0; i < bpmList.size(); i++) {
+            double bpm = bpmList.get(i);
+            if (bpm == mode) {
+                continue; // Skip mode, no adjustment needed
+            } else if (Math.abs(bpm - 2 * mode) < 20) {
+                bpmList.set(i, 2 * mode); // Adjust doubles
+            } else if (Math.abs(bpm - mode / 2) < 20) {
+                bpmList.set(i, mode / 2); // Adjust halves
+            } else if (bpm < mode / 2 || bpm > 2 * mode) {
+                bpmList.remove(i); // Remove completely off segments
+                i--; // Adjust index after removal
+            }
+        }
+    }
+
+    private List<Double> filterSegments(List<Double> segments) {
+        List<Double> filteredBPMs = new ArrayList<>();
+        double mode = findMode((ArrayList<Double>) segments);
+        double threshold = 20; // Adjust as needed based on expected deviation
+
+        for (double bpm : segments) {
+            // Exclude segments that deviate significantly from the mode BPM
+            if (Math.abs(bpm - mode) < threshold) {
+                filteredBPMs.add(bpm);
+            }
         }
 
-
-        return mode;
+        return filteredBPMs;
     }
 
     public static double findMode(ArrayList<Double> list) {
@@ -276,7 +276,6 @@ public class Beats {
         double mostCommonInterval = Collections.max(clusters.entrySet(), Map.Entry.comparingByValue()).getKey();
         return 60 / mostCommonInterval; // Convert to BPM
     }
-
 
 
     public static List<List<Double>> divideMiddleBeats(List<Double> onsetTimes) {
