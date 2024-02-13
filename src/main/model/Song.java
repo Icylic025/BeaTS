@@ -4,6 +4,13 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
+/**
+ * Song class represents a song.
+ * It stores the artist, title, file path, and BPM (retrieved from Beats Class) of the song.
+ * It also facilitates the play back of the stored song and works together with the
+ * MusicPlayer class to make sure the code is paused until the song finishes playing
+ */
+
 public class Song {
     private String artist;
     private String title;
@@ -12,6 +19,12 @@ public class Song {
     private int bpm;
     private boolean isPlaying = false;
 
+    /**
+     * Requires: Valid artist, title, and file path strings
+     * Modifies: this
+     * Effects: Constructs a Song object with the provided artist, title, and file path.
+     *          Initializes the Beats object for the song to calculate BPM.
+     */
     public Song(String artist, String title, String filePath) {
         this.artist = artist;
         this.title = title;
@@ -20,6 +33,11 @@ public class Song {
         this.bpm = beats.getBpm();
     }
 
+
+    /**
+     * Modifies: this, isPlaying
+     * Effects: Plays the song using a MusicPlayer instance and waits until playback finishes.
+     */
     public synchronized void playSong() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         MusicPlayer player = new MusicPlayer(this);
         player.play();
@@ -32,7 +50,10 @@ public class Song {
         }
     }
 
-
+    /**
+     * Modifies: isPlaying
+     * Effects: Notifies that the playback of the song has finished.
+     */
     public synchronized void notifyPlaybackFinished() {
         isPlaying = false;
         notify(); // Notify the waiting thread (playSong method) that playback is finished

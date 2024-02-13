@@ -6,20 +6,34 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Playlist class represents a collection of Song object with various functionalities for managing and playing songs.
+ * It allows users to construct playlists, filter songs by BPM, play songs sequentially or individually,
+ * add and delete songs, shuffle the playlist, and retrieve information about the playlist.
+ */
+
 public class Playlist {
     private ArrayList<Song> songs;
 
-    // construct empty playlist
+    /**
+     * Effects: Constructs an empty Playlist object.
+     */
     public Playlist() {
         songs = new ArrayList<Song>();
     }
 
-    // construct playlist with given songs
+    /**
+     * Requires: Non-null list of songs
+     * Modifies: this
+     * Effects: Constructs a Playlist object with the given list of songs.
+     */
     public Playlist(ArrayList<Song> list) {
         songs = list;
     }
 
-    // filter list by bpm, return new playlist
+    /**
+     * Effects: Filters the list of songs by BPM within a specified range and returns a new Playlist object.
+     */
     public Playlist filterByBpm(int bpm) {
         int range = 10;
         ArrayList<Song> filteredList = new ArrayList<Song>();
@@ -32,6 +46,9 @@ public class Playlist {
         return new Playlist(filteredList);
     }
 
+    /**
+     * Effects: Plays all songs in the playlist sequentially, waiting for each song to finish before starting the next.
+     */
     public void playAll() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         // Variable to keep track of whether the previous song has finished playing
         boolean previousSongFinished = true;
@@ -54,19 +71,35 @@ public class Playlist {
         }
     }
 
-
+    /**
+     * Requires: Valid index within the range of the playlist
+     * Effects: Plays the song at the specified index in the playlist.
+     */
     public void playSong(int index) throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         songs.get(index).playSong();
     }
 
+    /**
+     * Requires: Non-null Song object
+     * Modifies: this
+     * Effects: Adds the given song to the playlist.
+     */
     public void addSong(Song s) {
         songs.add(s);
     }
 
+    /**
+     * Requires: Valid index within the range of the playlist
+     * Modifies: this
+     * Effects: Deletes the song at the specified index from the playlist.
+     */
     public void deleteSong(int i) {
         songs.remove(i);
     }
 
+    /**
+     * Effects: Shuffles the songs in the playlist and returns a new Playlist object.
+     */
     public Playlist shuffle() {
         ArrayList<Song> shuffledList = new ArrayList<Song>();
         Collections.shuffle(songs);
@@ -86,6 +119,11 @@ public class Playlist {
         return songs.size();
     }
 
+    /**
+     * Requires: Non-null Playlist object
+     * Modifies: this
+     * Effects: Adds all songs from the given playlist to the current playlist.
+     */
     public void addPlaylist(Playlist p) {
         for (Song s : p.getSongs()) {
             songs.add(s);
