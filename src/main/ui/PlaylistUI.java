@@ -1,13 +1,13 @@
 package ui;
 
-import model.MusicManager;
+import model.LocalMusicManager;
+import model.MasterMusicManager;
 import model.Playlist;
 import model.Song;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,12 +15,20 @@ public class PlaylistUI {
 
     Playlist playlist;
     Scanner scanner = new Scanner(System.in);
-    MusicManager musicManager;
+    LocalMusicManager localMusicManager = new LocalMusicManager(new Playlist());
+    MasterMusicManager masterMusicManager;
 
-    public PlaylistUI(MusicManager musicManager)
+    public PlaylistUI(MasterMusicManager masterMusicManager)
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        this.musicManager = musicManager;
-        playlist = musicManager.getMasterPlaylist();
+        this.masterMusicManager = masterMusicManager;
+        playlist = masterMusicManager.getMasterPlaylist();
+        runPlaylistUI();
+    }
+
+    public PlaylistUI(LocalMusicManager localMusicManager,MasterMusicManager masterMusicManager)
+            throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        playlist = localMusicManager.getPlaylist();
+        this.masterMusicManager = masterMusicManager;
         runPlaylistUI();
     }
 
@@ -80,7 +88,7 @@ public class PlaylistUI {
         } else if (command.equals("s")) {
             shuffle();
         } else if (command.equals("a")) {
-            add();
+            add(masterMusicManager.getMasterPlaylist(), localMusicManager);
         } else if (command.equals("p")) {
             playAll();
         } else if (command.equals("l")) {
@@ -92,28 +100,55 @@ public class PlaylistUI {
 
     public void filter() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         int bpm;
-        MusicManager filteredManager;
+        LocalMusicManager filteredManager;
         System.out.println("Please input the BPM you want: ");
         bpm = Integer.parseInt(scanner.next());
         System.out.println("Here are the songs around this BPM: ");
-        filteredManager = new MusicManager(playlist.filterByBpm(bpm));
-        new PlaylistUI(filteredManager);
+        filteredManager = new LocalMusicManager(playlist.filterByBpm(bpm));
+        new PlaylistUI(filteredManager, masterMusicManager);
     }
 
     public void shuffle() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        MusicManager shuffledManager;
+        LocalMusicManager shuffledManager;
         System.out.println("Here is your playlist shuffled: ");
-        shuffledManager = new MusicManager(playlist.shuffle());
-        new PlaylistUI(shuffledManager);
+        shuffledManager = new LocalMusicManager(playlist.shuffle());
+        new PlaylistUI(shuffledManager, masterMusicManager);
     }
 
-    public void add() {
-        // idk if have time but need to look into upload from already uploaded/not filtered list
-        new UploadSongUI(musicManager);
+    public void add(Playlist masterPlaylist, LocalMusicManager localMusicManager)
+            throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        int songIndex;
+        System.out.println("Please select a song to add to your local playlist:");
+        displayMasterPlaylist(masterPlaylist);
+
+        // Let the user choose from the master playlist
+
+        while (true) {
+            songIndex = Integer.parseInt(scanner.next());
+            if (songIndex <= masterPlaylist.getSize() && songIndex >= 1) {
+                break;
+            }
+            System.out.println("Sorry " + songIndex + "is not the number of a song. Please select from the list.");
+
+        }
+
+        Song selectedSong = masterPlaylist.getSongs().get(songIndex - 1);
+
+        // Add selected song to local playlist
+        localMusicManager.uploadLocalSong(selectedSong);
+        System.out.println(selectedSong.getTitle() + " has been added to your local playlist");
+
+        // Update the local playlist with the new song
+        playlist.addSong(selectedSong);
+
+        // Refresh the display
+        new PlaylistUI(new LocalMusicManager(playlist), masterMusicManager);
     }
 
     public void playAll() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         playlist.playAll();
+        new PlaylistUI(new LocalMusicManager(playlist), masterMusicManager);
+
     }
 
     public void listen() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
@@ -128,10 +163,12 @@ public class PlaylistUI {
             System.out.println("Sorry " + index + "is not the number of a song. Please select from the list.");
 
         }
-        playlist.playSong(index);
+        playlist.playSong(index - 1);
+        new PlaylistUI(new LocalMusicManager(playlist), masterMusicManager);
+
     }
 
-    public void delete() {
+    public void delete() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         int index;
         while (true) {
             System.out.println("Please enter the number of the song you want to delete:");
@@ -139,9 +176,23 @@ public class PlaylistUI {
             if (index <= playlist.getSize() && index >= 1) {
                 break;
             }
-            System.out.println("Sorry " + index + "is not the number of a song. Please select from the list.");
-
+            System.out.println("Sorry " + index + " is not the number of a song. Please select from the list.");
         }
-        musicManager.deleteSongFromMasterPlaylist(index - 1);
+       // System.out.println(localMusicManager.getPlaylist());
+
+        // Update the local playlist
+        playlist.deleteSong(index - 1);
+
+        // Refresh the display
+        new PlaylistUI(new LocalMusicManager(playlist), masterMusicManager);
     }
+
+    private void displayMasterPlaylist(Playlist playlist) {
+        System.out.println("Master Playlist:");
+        int index = 1;
+        for (Song song : playlist.getSongs()) {
+            System.out.println(index++ + ". " + song.getTitle());
+        }
+    }
+
 }

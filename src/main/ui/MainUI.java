@@ -1,6 +1,7 @@
 package ui;
 
-import model.MusicManager;
+import model.LocalMusicManager;
+import model.MasterMusicManager;
 import model.Playlist;
 import model.Song;
 
@@ -13,18 +14,19 @@ import java.util.Scanner;
 public class MainUI {
 
     private Scanner input = new Scanner(System.in);
-    private MusicManager musicManager = new MusicManager(new Playlist());
+    private MasterMusicManager masterMusicManager = new MasterMusicManager();
 
     ArrayList<Song> songs = new ArrayList<Song>();
     Song cypher4 = new Song("BTS", "Cypher 4", "D:/Kylie/Bangtan/Music/Cypher 4.wav");
     Song zero = new Song("BTS", "Zero O'Clock", "D:/Kylie/Bangtan/Music/0000.wav");
     Song arson = new Song("BTS", "Arson", "D:/Kylie/Bangtan/Music/Arson.wav");
-
     Song amygdala = new Song("BTS", "Amygdala", "D:/Kylie/Bangtan/Music/Amygdala.wav");
     Song twentyOne = new Song("BTS", "21st Century Girl", "D:/Kylie/Bangtan/Music/21st Century Girl.wav");
     Song airplane = new Song("BTS", "Airplane pt 2", "D:/Kylie/Bangtan/Music/Airplane 2.wav");
     Song dimple = new Song("BTS", "dimple", "D:/Kylie/Bangtan/Music/Dimple.wav");
     Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "D:/Kylie/Bangtan/Music/Don't Leave Me.wav");
+
+    /*
     Song filmOut = new Song("BTS", "filmOut", "D:/Kylie/Bangtan/Music/Film Out.wav");
     Song fire = new Song("BTS", "Fire", "D:/Kylie/Bangtan/Music/Fire.wav");
     Song friends = new Song("BTS", "friends", "D:/Kylie/Bangtan/Music/Friends.wav");
@@ -36,7 +38,7 @@ public class MainUI {
     Song  silverSpoon = new Song("BTS", " Silver Spoon ", "D:/Kylie/Bangtan/Music/Silver Spoon.wav");
     Song soFarAway = new Song("BTS", " so far away ", "D:/Kylie/Bangtan/Music/So Far Away.wav");
 
-
+*/
 
 
 
@@ -45,26 +47,27 @@ public class MainUI {
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
 
+        masterMusicManager.uploadSongToMaster(cypher4);
+        masterMusicManager.uploadSongToMaster(zero);
+        masterMusicManager.uploadSongToMaster(arson);
+        masterMusicManager.uploadSongToMaster(amygdala);
+        masterMusicManager.uploadSongToMaster(twentyOne);
+        masterMusicManager.uploadSongToMaster(airplane);
+        masterMusicManager.uploadSongToMaster(dimple);
+        masterMusicManager.uploadSongToMaster(dontLeaveMe);
 
-        songs.add(cypher4);
-        songs.add(zero);
-        songs.add(arson);
-        songs.add(amygdala);
-        songs.add(twentyOne);
-        songs.add(airplane);
-        songs.add(dimple);
-        songs.add(dontLeaveMe);
-        songs.add(filmOut);
-        songs.add(fire);
-        songs.add(friends);
-        songs.add(maCity);
-        songs.add(magicShop);
-        songs.add(polarNight);
-        songs.add(shadow);
-        songs.add(silverSpoon);
-        songs.add(soFarAway);
+        /*
+        masterMusicManager.uploadSongToMaster(filmOut);
+        masterMusicManager.uploadSongToMaster(fire);
+        masterMusicManager.uploadSongToMaster(friends);
+        masterMusicManager.uploadSongToMaster(maCity);
+        masterMusicManager.uploadSongToMaster(magicShop);
+        masterMusicManager.uploadSongToMaster(polarNight);
+        masterMusicManager.uploadSongToMaster(shadow);
+        masterMusicManager.uploadSongToMaster(silverSpoon);
+        masterMusicManager.uploadSongToMaster(soFarAway);
+*/
 
-        musicManager = new MusicManager(new Playlist(songs));
 
         do {
             runMainUI();
@@ -97,11 +100,11 @@ public class MainUI {
         if (command.equals("q")) {
             System.exit(0);
         } else if (command.equals("u")) {
-            new UploadSongUI(musicManager);
+            new UploadSongUI(masterMusicManager);
         } else if (command.equals("v")) {
-            new PlaylistUI(musicManager);
+            new PlaylistUI(masterMusicManager);
         } else if (command.equals("m")) {
-            new ManualBeatsUI(musicManager);
+            new ManualBeatsUI(masterMusicManager);
         } else {
             System.out.println("Sorry " + command + " was not a valid input, please select from the menu.");
         }

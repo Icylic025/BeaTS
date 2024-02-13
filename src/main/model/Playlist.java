@@ -85,6 +85,12 @@ public class Playlist {
     public int getSize() {
         return songs.size();
     }
+
+    public void addPlaylist(Playlist p) {
+        for (Song s : p.getSongs()) {
+            songs.add(s);
+        }
+    }
 }
 
 

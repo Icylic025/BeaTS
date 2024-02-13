@@ -1,25 +1,47 @@
 package ui;
 
-import model.MusicManager;
-import model.Playlist;
+import model.LocalMusicManager;
+import model.MasterMusicManager;
 import model.Song;
 
+import javax.sound.midi.Soundbank;
 import java.util.Scanner;
 
 public class UploadSongUI {
     Scanner scanner = new Scanner(System.in);
 
-    public UploadSongUI(MusicManager musicManager) {
-        System.out.println("Please enter the name of the file you wish to upload: ");
-        // make song object from stuff that idk how to do
-        // for now we make fake song
-
-        Song upload = new Song("BTS", "Cypher 4", "D:/Kylie/Bangtan/Music/Cypher 4.wav");
-
-        musicManager.uploadSong(upload);
-        System.out.println(upload.getTitle() + " has been uploaded successfully");
-
+    public UploadSongUI(MasterMusicManager masterMusicManager) {
+        Song selectedSong = selectSongFromUser();
+        masterMusicManager.uploadSongToMaster(selectedSong);
     }
 
+
+    private Song selectSongFromUser() {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        String title;
+        String artist;
+        String filepath;
+
+        System.out.println("Please enter the title of the song to upload: ");
+        title = scanner.nextLine();
+
+        System.out.println("Please enter the artist: ");
+        artist = scanner.nextLine();
+
+
+        System.out.println("Please enter the filepath of the song to upload: ");
+        filepath = scanner.nextLine();
+
+        System.out.println("Please enter the name of the file you wish to upload: ");
+
+        try {
+            Song upload = new Song(artist, title, filepath);
+        } catch (Exception e) {
+            System.out.println("Something went wrong with the upload.");
+        }
+
+        return new Song(artist, title, filepath);
+    }
 
 }

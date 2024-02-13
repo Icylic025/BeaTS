@@ -1,7 +1,8 @@
 package ui;
 
 import model.ManualBpmCalc;
-import model.MusicManager;
+import model.LocalMusicManager;
+import model.MasterMusicManager;
 import model.Playlist;
 
 import javax.sound.sampled.LineUnavailableException;
@@ -15,13 +16,15 @@ public class ManualBeatsUI {
     private ManualBpmCalc beatCalc;
     private int manualBpm;
     Playlist playlist;
-    MusicManager musicManager;
+    LocalMusicManager localMusicManager;
+    MasterMusicManager masterMusicManager;
 
 
-    public ManualBeatsUI(MusicManager musicManager)
+    public ManualBeatsUI(MasterMusicManager masterMusicManager)
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        this.musicManager = musicManager;
-        playlist = musicManager.getMasterPlaylist();
+
+        playlist = masterMusicManager.getMasterPlaylist();
+        this.masterMusicManager = masterMusicManager;
         manualBpmDetection();
     }
 
@@ -32,7 +35,7 @@ public class ManualBeatsUI {
         Scanner scanner = new Scanner(System.in);
         int tapCount = 0;
         final int MAX_TAPS = 10;
-        MusicManager filteredManager;
+        LocalMusicManager filteredManager;
 
         System.out.println("As consistently as possible, please tap the Enter Button 10 times according to a Beat: ");
         System.out.println("Press Enter to Start... ");
@@ -60,10 +63,16 @@ public class ManualBeatsUI {
 
     public void displaySongs(ManualBpmCalc beatCalc)
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        MusicManager filteredManager = new MusicManager(playlist.filterByBpm(this.beatCalc.getBpm()));
+        LocalMusicManager filteredManager = new LocalMusicManager(playlist.filterByBpm(this.beatCalc.getBpm()));
 
         System.out.println("Here are the songs around this BPM (" + this.beatCalc.getBpm() + "): ");
-        new PlaylistUI(filteredManager);
+
+        if (filteredManager.getPlaylist().getSize() == 0) {
+            System.out.println("Sorry, you don't have any songs around that BPM.");
+            return;
+        }
+        new PlaylistUI(filteredManager, masterMusicManager);
+
     }
 }
 

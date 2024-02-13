@@ -31,7 +31,7 @@ I also found multiple practical uses for this project and as someone who runs an
 having a music pace setter will be very practical. 
 
 ### User Stories
-- As a user, I want to be able to insert mp3 files into a playlist of music
+- As a user, I want to be able to insert wav files into a playlist of music
 - As a user, I want to be able to view my playlist and filter the playlist
 - As a user, I want to be able to find the bpm of music files I input (perhaps initially this can be done manually)
 - As a user, I want to be able to manually input a beat and get filtered songs with the same bpm
