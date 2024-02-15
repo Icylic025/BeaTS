@@ -57,5 +57,16 @@
     </orderEntry>
     <orderEntry type="library" exported="" name="core-2.5" level="project" />
     <orderEntry type="library" exported="" name="jvm-2.5" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../mockito-core-5.10.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="mockito-core-5.10.01" level="project" />
+    <orderEntry type="library" exported="" name="byte-buddy-agent-1.14.11" level="application" />
   </component>
 </module>

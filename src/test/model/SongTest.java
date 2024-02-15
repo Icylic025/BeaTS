@@ -6,6 +6,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class SongTest {
     Song song;
@@ -14,21 +15,6 @@ public class SongTest {
       song = new Song("BTS", "Whistle", "D:/Kylie/Bangtan/Music/Whistle.wav");
     }
 
-    @Test
-    public void testPlaySong() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        // Ensure the song is not playing initially
-        assertFalse(song.getIsPlaying());
-
-        // Play the song
-        song.playSong();
-
-        // After playing, the song should be marked as playing
-        assertFalse(song.getIsPlaying());
-
-        // After playback finishes, the song should not be playing
-        song.notifyPlaybackFinished();
-        assertFalse(song.getIsPlaying());
-    }
 
     @Test
     public void testSimulateLineUnavailable() {
@@ -46,5 +32,20 @@ public class SongTest {
 
         // Ensure that IOException is thrown when playing the song
         assertThrows(IOException.class, () -> song.playSongForTest());
+    }
+
+    @Test
+    public void testPlaySong() throws UnsupportedAudioFileException, LineUnavailableException, IOException, InterruptedException {
+        // Mocking the MusicPlayer class to avoid actual audio playback during tests
+        MusicPlayer mockedPlayer = mock(MusicPlayer.class);
+
+        // Play the song
+        song.playSong();
+
+        // Ensure that MusicPlayer.play() method is called
+        verify(mockedPlayer, times(1)).play();
+
+        // Ensure that wait() method is called after playback starts
+        verify(song, times(1)).wait();
     }
 }
