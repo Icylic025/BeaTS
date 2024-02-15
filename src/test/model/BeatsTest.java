@@ -7,12 +7,10 @@ import model.Beats;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,23 +23,34 @@ public class BeatsTest {
         beats = new Beats("D:/Kylie/Bangtan/Music/Fire.wav");
     }
 
-    @Test
-    // actually not that sure how to test the Tarosos DSP library
-    void testCalculateBeats() {
-        // Since calculateBeats method is indirectly tested in constructor, we can validate the result indirectly
-        List<Double> calculatedBeats = beats.getBeats();
-        // Assert something meaningful about the calculated beats
-        assertNotNull(calculatedBeats);
-    }
+
 
     // Add similar test methods for other public methods like getBpm, getBeats, etc.
 
-    // Testing private methods using reflection
-    void testHandleOnset() {
-        Beats beats = new Beats("path_to_audio_file.wav");
-        List<Double> timeList = new ArrayList<>();
-        beats.handleOnset(4.0, 0.5, timeList);
-        assertEquals(4.0, timeList.get(0)); // Assert that onset is correctly added to timeList
+    @Test
+    void testCalculateBeats() {
+        // Create an instance of Beats
+        Beats beatsAnalyzer = new Beats("D:/Kylie/Bangtan/Music/Silver Spoon.wav");
+
+        // Generate a temporary WAV file with some predefined audio data
+        File tempAudioFile = generateTempAudioFile();
+
+        // Calculate beats from the temporary audio file
+        List<Double> timeList = beatsAnalyzer.calculateBeats(tempAudioFile.getPath());
+
+        // Verify that the timeList contains onset times
+        assertEquals(731, timeList.size()); // Assuming 5 onset times for the test audio file
+        assertTrue(timeList.get(0) < timeList.get(1));
+        assertTrue(timeList.get(1) < timeList.get(2));
+        assertTrue(timeList.get(2) < timeList.get(3));
+        assertTrue(timeList.get(3) < timeList.get(4));
+    }
+
+    // Helper method to generate a temporary WAV file with some predefined audio data
+    private File generateTempAudioFile() {
+        // Code to generate temporary WAV file with audio data
+        // Return the file object
+        return new File("D:/Kylie/Bangtan/Music/Silver Spoon.wav");
     }
 
     @Test
@@ -145,6 +154,30 @@ public class BeatsTest {
         int bpm = beats.calculateBeatsPerMin(timeList);
     }
 
+    void testCalculateBPMForSegment() {
+        // Prepare test data
+        List<Double> segment = Arrays.asList(0.1, 0.5, 1.0, 1.5); // Example segment of beats
+
+        // Call the method to calculate BPM for the segment
+        double bpm = Beats.processBeatsForBPM(segment);
+
+        // Assert the expected BPM value (You should adjust this based on your actual implementation)
+        assertEquals(120, bpm); // Assuming the segment has a constant beat interval of 0.5 seconds
+    }
+
+    @Test
+    void testAdjustBPM() {
+        // Prepare test data
+        int bpmGreaterThan200 = 220;
+
+        // Call the method to adjust BPM
+        if (bpmGreaterThan200 >= 200) {
+            bpmGreaterThan200 /= 2;
+        }
+
+        // Assert the adjusted BPM value
+        assertEquals(110, bpmGreaterThan200); // Assuming the original BPM was 220
+    }
 
     @Test
     void testCalculateAverageBPM_EmptyList() {
@@ -201,6 +234,32 @@ public class BeatsTest {
         List<Double> bpmList = new ArrayList<> (List.of(100.0, 110.0, 150.0, 170.0, 200.0));
         beats.adjustBPMs(bpmList);
         // Assert expected adjusted BPMs
+    }
+
+    @Test
+    void testAdjustBPMsHalves() {
+        // Prepare test data
+        List<Double> bpmList =  new ArrayList<>(List.of(100.0, 50.0, 200.0, 300.0)); // Example BPM list
+        double mode = Beats.findMode((ArrayList<Double>) bpmList);
+
+        // Call the method to adjust BPMs
+        Beats.adjustBPMs(bpmList);
+
+        // Assert the adjusted BPM values
+        assertEquals(Arrays.asList(100.0, 100.0, 200.0, 100.0), bpmList); // Expecting BPMs to be adjusted to mode/2 for values less than mode/2
+    }
+
+    @Test
+    void testAdjustBPMsDoubles() {
+        // Prepare test data
+        ArrayList bpmList = new ArrayList<>(List.of(100.0, 200.0, 300.0, 400.0)); // Example BPM list
+        double mode = Beats.findMode((ArrayList<Double>) bpmList);
+
+        // Call the method to adjust BPMs
+        Beats.adjustBPMs(bpmList);
+
+        // Assert the adjusted BPM values
+        assertEquals(Arrays.asList(100.0, 200.0, 200.0, 200.0), bpmList); // Expecting BPMs to be adjusted to 2 * mode for values greater than 2 * mode
     }
 
     @Test

@@ -54,7 +54,7 @@ public class Beats {
      * Requires: Valid audio file path
      * Effects: Calculates the beats from the given audio file and returns the list of beat times.
      */
-    private List<Double> calculateBeats(String path) {
+    List<Double> calculateBeats(String path) {
         List<Double> timeList = new ArrayList<>();
         try {
             String audioFilePath = path; // Replace with your audio file path
@@ -174,7 +174,7 @@ public class Beats {
     /**
      * Effects: Adjusts the BPM values based on mode, doubles, halves, and multiples.
      */
-    void adjustBPMs(List<Double> bpmList) {
+    static void adjustBPMs(List<Double> bpmList) {
         double mode = findMode((ArrayList<Double>) bpmList);
         for (int i = 0; i < bpmList.size(); i++) {
             double bpm = bpmList.get(i);
