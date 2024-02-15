@@ -96,7 +96,7 @@ public class Beats {
      * Modifies: timeList
      * Effects: Handles detected onset and adds it to the timeList.
      */
-    private void handleOnset(double time, double salience, List<Double> timeList) {
+    void handleOnset(double time, double salience, List<Double> timeList) {
         synchronized (timeList) {
             timeList.add(time);
         }
@@ -105,7 +105,7 @@ public class Beats {
     /**
      * Effects: Filters the timeList to remove closely occurring beats.
      */
-    private List<Double> filterTimeList(List<Double> timeList) {
+    List<Double> filterTimeList(List<Double> timeList) {
         double prev = -1; // Initialize to an invalid value
         double minInterval = 0.15; // Minimum interval between beats
         List<Double> filteredList = new ArrayList<>();
@@ -124,7 +124,7 @@ public class Beats {
      * Requires: Non-empty list of beat times
      * Effects: Calculates the BPM from the given list of beats.
      */
-    private int calculateBeatsPerMin(ArrayList<Double> timeList) {
+    int calculateBeatsPerMin(ArrayList<Double> timeList) {
         int finalBPM = 0;
 
         // Divide the middle beats into 8 segments
@@ -159,7 +159,7 @@ public class Beats {
      * Requires: Non-empty list of BPM values
      * Effects: Calculates the average BPM from the given list of BPMs.
      */
-    private int calculateAverageBPM(List<Double> bpmList) {
+    int calculateAverageBPM(List<Double> bpmList) {
         if (bpmList.isEmpty()) {
             return 0; // Return 0 if the list is empty
         }
@@ -174,7 +174,7 @@ public class Beats {
     /**
      * Effects: Adjusts the BPM values based on mode, doubles, halves, and multiples.
      */
-    private void adjustBPMs(List<Double> bpmList) {
+    void adjustBPMs(List<Double> bpmList) {
         double mode = findMode((ArrayList<Double>) bpmList);
         for (int i = 0; i < bpmList.size(); i++) {
             double bpm = bpmList.get(i);
@@ -194,7 +194,7 @@ public class Beats {
     /**
      * Effects: Filters the segments that deviate significantly from the expected tempo.
      */
-    private List<Double> filterSegments(List<Double> segments) {
+    List<Double> filterSegments(List<Double> segments) {
         List<Double> filteredBPMs = new ArrayList<>();
         double mode = findMode((ArrayList<Double>) segments);
         double threshold = 20; // Adjust as needed based on expected deviation
@@ -242,30 +242,20 @@ public class Beats {
      * Requires: Non-empty list of onset times
      * Effects: Retrieves the first or last 16 beats based on the boolean parameter.
      */
-    private static List<Double> getFirstOrLast16Beats(List<Double> onsetTimes, boolean first) {
+    static List<Double> getFirstOrLast16Beats(List<Double> onsetTimes, boolean first) {
         if (onsetTimes.size() < 16) {
             return onsetTimes; // Not enough data to differentiate between first and last
         }
         return first ? onsetTimes.subList(0, 16) : onsetTimes.subList(onsetTimes.size() - 16, onsetTimes.size());
     }
 
-    /**
-     * Effects: Retrieves the middle beats (not first or last 16 beats) from the onset times.
-     */
-    private static List<Double> getMiddleBeats(List<Double> onsetTimes) {
-        List<Double> middle = new ArrayList<Double>();
 
-        for (int i = 16; i < onsetTimes.size() - 16; i++) {
-            middle.add(onsetTimes.get(i));
-        }
-        return middle;
-    }
 
     /**
      * Requires: Non-empty list of beats
      * Effects: Processes the beats to calculate the BPM.
      */
-    private static double processBeatsForBPM(List<Double> beats) {
+    static double processBeatsForBPM(List<Double> beats) {
         if (beats.size() < 2) {
             return 0; // Not enough beats to calculate BPM
         }
@@ -284,7 +274,7 @@ public class Beats {
     /**
      * Effects: Removes outliers from the list of intervals.
      */
-    private static List<Double> removeOutliers(List<Double> intervals) {
+    static List<Double> removeOutliers(List<Double> intervals) {
         double q1 = getPercentile(intervals, 25);
         double q3 = getPercentile(intervals, 75);
         double iqr = q3 - q1;
@@ -301,25 +291,12 @@ public class Beats {
         return filteredIntervals;
     }
 
-    /**
-     * Requires: Non-empty list of onset times
-     * Effects: Processes the middle beats to calculate the BPM.
-     */
-    private static double processMiddleBeatsForBPM(List<Double> onsetTimes) {
-        if (onsetTimes.size() <= 32) { // Not enough beats to differentiate sections
-            return 0;
-        }
 
-        // Exclude the first and last 16 beats
-        List<Double> middleBeats = onsetTimes.subList(16, onsetTimes.size() - 16);
-
-        return processBeatsForBPM(middleBeats);
-    }
 
     /**
      * Effects: Retrieves the percentile value from the list of values.
      */
-    private static double getPercentile(List<Double> values, double percentile) {
+    static double getPercentile(List<Double> values, double percentile) {
         List<Double> sortedValues = new ArrayList<>(values);
         Collections.sort(sortedValues);
         int index = (int) Math.ceil(percentile / 100.0 * sortedValues.size());
@@ -329,7 +306,7 @@ public class Beats {
     /**
      * Effects: Clusters the intervals and returns a map of interval clusters.
      */
-    private static Map<Double, Integer> clusterIntervals(List<Double> intervals) {
+    static Map<Double, Integer> clusterIntervals(List<Double> intervals) {
         Map<Double, Integer> intervalClusters = new HashMap<>();
         for (Double interval : intervals) {
             Double roundedInterval = roundToNearest(interval, 0.0075);
@@ -341,14 +318,14 @@ public class Beats {
     /**
      * Effects: Rounds the given value to the nearest precision.
      */
-    private static Double roundToNearest(Double value, Double precision) {
+    static Double roundToNearest(Double value, Double precision) {
         return Math.round(value / precision) * precision;
     }
 
     /**
      * Effects: Calculates the BPM rate from the interval clusters.
      */
-    private static double calculateRateFromClusters(Map<Double, Integer> clusters) {
+    static double calculateRateFromClusters(Map<Double, Integer> clusters) {
         if (clusters.isEmpty()) {
             return 0; // No data to calculate BPM
         }
