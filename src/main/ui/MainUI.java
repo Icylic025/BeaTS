@@ -11,6 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The MainUI class represents the main user interface. It runs
+ * at the start of the program and is the only thing Main calls.
+ * The MainUI then calls upon other UIs depending on the user
+ * inputs and directs the flow of the program.
+ */
+
 public class MainUI {
 
     private Scanner input = new Scanner(System.in);
@@ -43,7 +50,11 @@ public class MainUI {
 
 
 
-
+/**
+ * Modifies: masterMusicManager
+ * Effects: Constructs a MainUI object, initializes a scanner for user input,
+ * and uploads predefined songs to the master music manager.
+ */
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
 
@@ -75,7 +86,10 @@ public class MainUI {
     }
 
 
-
+    /**
+     * Effects: Displays the main menu options, prompts the user for input,
+     * and executes the selected command.
+     */
     private void runMainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         String command;
 
@@ -94,6 +108,11 @@ public class MainUI {
 
     }
 
+    /**
+     *  Effects: Executes the command specified by the user,
+     *              either uploading a song, viewing songs, performing manual beat detection,
+     *              or exiting the application.
+     */
     private void implementCommand(String command)
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 

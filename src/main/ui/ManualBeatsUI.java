@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * The ManualBeatsUI class facilitates manual beat detection for songs.
+ * It allows users to tap the Enter key to determine the BPM (beats per minute) of a song.
+ * Upon initialization, it prompts the user to tap the Enter key 10 times and records the timing of each tap.
+ * Using this data, it calculates the BPM and creates a new PlaylistUI displaying the songs around the
+ * calculated BPM.
+ */
+
+
 public class ManualBeatsUI {
     private ManualBpmCalc beatCalc;
     private int manualBpm;
@@ -20,6 +29,11 @@ public class ManualBeatsUI {
     MasterMusicManager masterMusicManager;
 
 
+    /**
+     * Requires: masterMusicManager to be initialized with a valid instance of MasterMusicManager
+     * Effects: Constructs a ManualBeatsUI object, initializes manual beat detection process,
+     *          and calculates BPM based on user-entered beats.
+     */
     public ManualBeatsUI(MasterMusicManager masterMusicManager)
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
@@ -28,6 +42,10 @@ public class ManualBeatsUI {
         manualBpmDetection();
     }
 
+    /**
+     * Effects: Performs manual beat detection by prompting the user to tap Enter key 10 times,
+     *          records the timing of each tap, and calculates the BPM.
+     */
     public void manualBpmDetection()
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         int bpm = 0;
@@ -61,6 +79,10 @@ public class ManualBeatsUI {
         displaySongs(beatCalc);
     }
 
+    /**
+     * Requires: beatCalc to be initialized with a valid instance of ManualBpmCalc
+     * Effects: Displays songs around the calculated BPM based on manual beat detection results.
+     */
     public void displaySongs(ManualBpmCalc beatCalc)
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         LocalMusicManager filteredManager = new LocalMusicManager(playlist.filterByBpm(this.beatCalc.getBpm()));
