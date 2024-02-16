@@ -48,10 +48,7 @@ public class SongTest {
     @Test
     public void testNotifyPlaybackFinished() {
         song.setPlaying(true);
-
         song.notifyPlaybackFinished();
-
-
         assertFalse(song.getIsPlaying());
     }
 
