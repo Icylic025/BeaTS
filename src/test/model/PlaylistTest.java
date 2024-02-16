@@ -18,11 +18,11 @@ public class PlaylistTest {
     @BeforeEach
     void setUp() {
         songs = new ArrayList<>();
-        Song song1 = new Song("BTS", "Magic Shop", "D:/Kylie/Bangtan/Music/Whistle.wav");
-        Song song2 = new Song("BTS", "PolarNight", "D:/Kylie/Bangtan/Music/Whistle.wav");
-        Song song3 = new Song("BTS", "Shadow", "D:/Kylie/Bangtan/Music/Whistle.wav");
-        Song song4 = new Song("BTS", "Silver Spoon", "D:/Kylie/Bangtan/Music/Whistle.wav");
-        newSong = new Song("BTS", "Fire", "D:/Kylie/Bangtan/Music/Whistle.wav");
+        Song song1 = new Song("BTS", "Magic Shop", "./data/Music/Whistle.wav");
+        Song song2 = new Song("BTS", "PolarNight", "./data/Music/Whistle.wav");
+        Song song3 = new Song("BTS", "Shadow", "./data/Music/Whistle.wav");
+        Song song4 = new Song("BTS", "Silver Spoon", "./data/Music/Whistle.wav");
+        newSong = new Song("BTS", "Fire", "./data/Music/Whistle.wav");
 
         songs.add(song1);
         songs.add(song2);

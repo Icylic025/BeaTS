@@ -18,7 +18,7 @@ public class MusicPlayerTest {
     @BeforeEach
     void setUp() {
 
-        song = new Song("BTS", "Whistle", "D:/Kylie/Bangtan/Music/Whistle.wav");
+        song = new Song("BTS", "Whistle", "./data/Music/Whistle.wav");
 
     }
 

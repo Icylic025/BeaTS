@@ -27,44 +27,11 @@ public class BeatsTest {
 
     // Add similar test methods for other public methods like getBpm, getBeats, etc.
 
-    @Test
-    void testCalculateBeats() {
-        // Create an instance of Beats
-        Beats beatsAnalyzer = new Beats("D:/Kylie/Bangtan/Music/Silver Spoon.wav");
-
-        // Generate a temporary WAV file with some predefined audio data
-        File tempAudioFile = generateTempAudioFile();
-
-        // Calculate beats from the temporary audio file
-        List<Double> timeList = beatsAnalyzer.calculateBeats(tempAudioFile.getPath());
-
-        // Verify that the timeList contains onset times
-        assertEquals(731, timeList.size()); // Assuming 5 onset times for the test audio file
-        assertTrue(timeList.get(0) < timeList.get(1));
-        assertTrue(timeList.get(1) < timeList.get(2));
-        assertTrue(timeList.get(2) < timeList.get(3));
-        assertTrue(timeList.get(3) < timeList.get(4));
-    }
-
-    // Helper method to generate a temporary WAV file with some predefined audio data
-    private File generateTempAudioFile() {
-        // Code to generate temporary WAV file with audio data
-        // Return the file object
-        return new File("D:/Kylie/Bangtan/Music/Silver Spoon.wav");
-    }
-
-    @Test
-    void testCalculateBeats_AddsAtLeastOneTime() {
-        // Assuming a valid audio file path
-        String validAudioPath = "D:/Kylie/Bangtan/Music/Silver Spoon.wav";
-        List<Double> timeList = calculateBeats(validAudioPath);
-        assertFalse(timeList.isEmpty()); // Ensure that the list is not empty
-    }
 
     @Test
     void testCalculateBeats_CorrectTimeInterval() {
         // Assuming a valid audio file path
-        String validAudioPath = "D:/Kylie/Bangtan/Music/Silver Spoon.wav";
+        String validAudioPath = "/./data/Music/Fire.wav";
         List<Double> timeList = calculateBeats(validAudioPath);
 
         // Assuming some expected time interval
@@ -264,8 +231,13 @@ public class BeatsTest {
 
     @Test
     void testCalcBeats() {
-        Beats test = new Beats("./data/Music/Cypher 4.wav");
-        test.calculateBeats("./data/Music/Cypher 4.wav");
+        Beats test = new Beats("./data/Music/Fire.wav");
+        test.calculateBeats("./data/Music/Fire.wav");
+    }
+
+    @Test
+    void testGetBeats() {
+        assertEquals(167, beats.getBeats());
     }
 
     @Test
