@@ -24,14 +24,14 @@ public class MainUI {
     private MasterMusicManager masterMusicManager = new MasterMusicManager();
 
     ArrayList<Song> songs = new ArrayList<Song>();
-    Song cypher4 = new Song("BTS", "Cypher 4", "D:/Kylie/Bangtan/Music/Cypher 4.wav");
-    Song zero = new Song("BTS", "Zero O'Clock", "D:/Kylie/Bangtan/Music/0000.wav");
-    Song arson = new Song("BTS", "Arson", "D:/Kylie/Bangtan/Music/Arson.wav");
-    Song amygdala = new Song("BTS", "Amygdala", "D:/Kylie/Bangtan/Music/Amygdala.wav");
-    Song twentyOne = new Song("BTS", "21st Century Girl", "D:/Kylie/Bangtan/Music/21st Century Girl.wav");
-    Song airplane = new Song("BTS", "Airplane pt 2", "D:/Kylie/Bangtan/Music/Airplane 2.wav");
-    Song dimple = new Song("BTS", "dimple", "D:/Kylie/Bangtan/Music/Dimple.wav");
-    Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "D:/Kylie/Bangtan/Music/Don't Leave Me.wav");
+    Song cypher4 = new Song("BTS", "Cypher 4", "./data/Music/Cypher 4.wav");
+    Song zero = new Song("BTS", "Zero O'Clock", "./data/Music/0000.wav");
+    Song arson = new Song("BTS", "Arson", "./data/Music/Arson.wav");
+    Song amygdala = new Song("BTS", "Amygdala", "./data/Music/Amygdala.wav");
+    Song twentyOne = new Song("BTS", "21st Century Girl", "./data/Music/21st Century Girl.wav");
+    Song airplane = new Song("BTS", "Airplane pt 2", "./data/Music/Airplane 2.wav");
+    Song dimple = new Song("BTS", "dimple", "./data/Music/Dimple.wav");
+    Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "./data/Music/Don't Leave Me.wav");
 
     /*
     Song filmOut = new Song("BTS", "filmOut", "D:/Kylie/Bangtan/Music/Film Out.wav");
