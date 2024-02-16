@@ -14,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MusicPlayerTest {
 
     private Song song;
-
+    private MusicPlayer mp;
     @BeforeEach
-    void setUp() {
+    void setUp() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
         song = new Song("BTS", "Whistle", "./data/Music/Whistle.wav");
-
+        mp = new MusicPlayer(song);
     }
 
     @Test
@@ -44,7 +44,7 @@ public class MusicPlayerTest {
 
     @Test
     void testPlay2() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        MusicPlayer mp = new MusicPlayer(song);
+
         mp.play();
     }
 
