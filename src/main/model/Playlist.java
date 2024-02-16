@@ -14,7 +14,6 @@ import java.util.Collections;
 
 public class Playlist {
     private ArrayList<Song> songs;
-    private boolean isFinished = false; // for testing
 
     /**
      * Effects: Constructs an empty Playlist object.
@@ -71,7 +70,7 @@ public class Playlist {
             previousSongFinished = false;
         }
 
-        isFinished = true;
+
     }
 
     /**
@@ -122,9 +121,7 @@ public class Playlist {
         return songs.size();
     }
 
-    public boolean getIsFinished() {
-        return isFinished;
-    }
+
 
     /**
      * Requires: Non-null Playlist object

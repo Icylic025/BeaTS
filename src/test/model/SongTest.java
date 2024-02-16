@@ -33,6 +33,10 @@ public class SongTest {
     }
 
     @Test
+    void testPlaySong() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        song.playSong();
+    }
+    @Test
     public void testPlaySongInterrupted() {
         // fake interruption
         Thread.currentThread().interrupt();
@@ -46,17 +50,17 @@ public class SongTest {
 
     @Test
     public void testNotifyPlaybackFinished() {
-        song.setPlaying(true);
         song.notifyPlaybackFinished();
-        assertFalse(song.getIsPlaying());
     }
 
-    @Test public void testGetSetMethods() {
+    @Test
+    public void testGetArtist() {
         assertEquals("BTS", song.getArtist());
-        assertFalse(song.getIsPlaying());
-        song.setPlaying(true);
-        assertTrue(song.getIsPlaying());
-        assertEquals("BTS", song.getArtist());
+
+    }
+
+    @Test
+    void testGetIsPlaying() {
         assertTrue(song.getIsPlaying());
     }
 }

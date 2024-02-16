@@ -266,6 +266,7 @@ public class BeatsTest {
     void testCalcBeats() {
         beats.calculateBeats("./data/Music/Cypher 4.wav");
     }
+
     @Test
     void testAdjustBPMs_NoAdjustmentsNeeded() {
         List<Double> bpmList = new ArrayList<>(List.of(120.0, 130.0, 140.0));
