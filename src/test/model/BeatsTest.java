@@ -1,17 +1,10 @@
 package model;
 
-import be.tarsos.dsp.AudioDispatcher;
-import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
-import be.tarsos.dsp.onsets.ComplexOnsetDetector;
-import model.Beats;
+import ui.Beats;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
 
 import static org.junit.jupiter.api.Assertions.*;
 

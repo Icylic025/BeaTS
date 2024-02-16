@@ -2,8 +2,6 @@ package ui;
 
 import model.LocalMusicManager;
 import model.MasterMusicManager;
-import model.Playlist;
-import model.Song;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;

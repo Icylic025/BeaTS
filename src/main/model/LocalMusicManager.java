@@ -1,6 +1,8 @@
 package model;
 
-import java.util.ArrayList;
+import ui.Playlist;
+import ui.Song;
+
 import java.util.List;
 
 /**

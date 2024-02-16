@@ -1,9 +1,10 @@
 package model;
 
 import org.junit.jupiter.api.*;
+import ui.Playlist;
+import ui.Song;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

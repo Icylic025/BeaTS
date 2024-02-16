@@ -1,4 +1,4 @@
-package model;
+package ui;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;

@@ -1,4 +1,4 @@
-package model;
+package ui;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
@@ -55,7 +55,7 @@ public class Beats {
      * Requires: Valid audio file path
      * Effects: Calculates the beats from the given audio file and returns the list of beat times.
      */
-    List<Double> calculateBeats(String path) {
+    public List<Double> calculateBeats(String path) {
         List<Double> timeList = new ArrayList<>();
         try {
             String audioFilePath = path; // Replace with your audio file path
@@ -97,7 +97,7 @@ public class Beats {
      * Modifies: timeList
      * Effects: Handles detected onset and adds it to the timeList.
      */
-    void handleOnset(double time, double salience, List<Double> timeList) {
+    public void handleOnset(double time, double salience, List<Double> timeList) {
         synchronized (timeList) {
             timeList.add(time);
         }
@@ -106,7 +106,7 @@ public class Beats {
     /**
      * Effects: Filters the timeList to remove closely occurring beats.
      */
-    List<Double> filterTimeList(List<Double> timeList) {
+    public List<Double> filterTimeList(List<Double> timeList) {
         double prev = -1; // Initialize to an invalid value
         double minInterval = 0.15; // Minimum interval between beats
         List<Double> filteredList = new ArrayList<>();
@@ -125,7 +125,7 @@ public class Beats {
      * Requires: Non-empty list of beat times
      * Effects: Calculates the BPM from the given list of beats.
      */
-    int calculateBeatsPerMin(ArrayList<Double> timeList) {
+    public int calculateBeatsPerMin(ArrayList<Double> timeList) {
         int finalBPM = 0;
 
         // Divide the middle beats into 8 segments
@@ -156,7 +156,7 @@ public class Beats {
      * Requires: Non-empty list of BPM values
      * Effects: Calculates the average BPM from the given list of BPMs.
      */
-    int calculateAverageBPM(List<Double> bpmList) {
+    public int calculateAverageBPM(List<Double> bpmList) {
         if (bpmList.isEmpty()) {
             return 0;
         }
@@ -171,7 +171,7 @@ public class Beats {
     /**
      * Effects: Adjusts the BPM values based on mode, doubles, halves, and multiples.
      */
-    static void adjustBPMs(List<Double> bpmList) {
+    public static void adjustBPMs(List<Double> bpmList) {
         double mode = findMode((ArrayList<Double>) bpmList);
         for (int i = 0; i < bpmList.size(); i++) {
             double bpm = bpmList.get(i);
@@ -181,7 +181,7 @@ public class Beats {
                 bpmList.set(i, 2 * mode);
             } else if (Math.abs(bpm - mode / 2) < 20) {
                 bpmList.set(i, mode / 2);
-            } else if (bpm < mode / 2 || bpm > 2 * mode) {
+            } else {
                 bpmList.remove(i);
                 i--; // change index back due to removal
             }
@@ -191,7 +191,7 @@ public class Beats {
     /**
      * Effects: Filters the segments that deviate significantly from the expected tempo.
      */
-    List<Double> filterSegments(List<Double> segments) {
+    public List<Double> filterSegments(List<Double> segments) {
         List<Double> filteredBPMs = new ArrayList<>();
         double mode = findMode((ArrayList<Double>) segments);
         double threshold = 20; // Adjust plus minus
@@ -239,7 +239,7 @@ public class Beats {
      * Requires: Non-empty list of onset times
      * Effects: Retrieves the first or last 16 beats based on the boolean parameter.
      */
-    static List<Double> getFirstOrLast16Beats(List<Double> onsetTimes, boolean first) {
+    public static List<Double> getFirstOrLast16Beats(List<Double> onsetTimes, boolean first) {
         if (onsetTimes.size() < 16) {
             return onsetTimes; // Not enough data
         }
@@ -252,7 +252,7 @@ public class Beats {
      * Requires: Non-empty list of beats
      * Effects: Processes the beats to calculate the BPM.
      */
-    static double processBeatsForBPM(List<Double> beats) {
+    public static double processBeatsForBPM(List<Double> beats) {
         if (beats.size() < 2) {
             return 0; // Not enough
         }
@@ -271,7 +271,7 @@ public class Beats {
     /**
      * Effects: Removes outliers from the list of intervals.
      */
-    static List<Double> removeOutliers(List<Double> intervals) {
+    public static List<Double> removeOutliers(List<Double> intervals) {
         double q1 = getPercentile(intervals, 25);
         double q3 = getPercentile(intervals, 75);
         double iqr = q3 - q1;
@@ -293,7 +293,7 @@ public class Beats {
     /**
      * Effects: Retrieves the percentile value from the list of values.
      */
-    static double getPercentile(List<Double> values, double percentile) {
+    public static double getPercentile(List<Double> values, double percentile) {
         List<Double> sortedValues = new ArrayList<>(values);
         Collections.sort(sortedValues);
         int index = (int) Math.ceil(percentile / 100.0 * sortedValues.size());
@@ -303,7 +303,7 @@ public class Beats {
     /**
      * Effects: Clusters the intervals and returns a map of interval clusters.
      */
-    static Map<Double, Integer> clusterIntervals(List<Double> intervals) {
+    public static Map<Double, Integer> clusterIntervals(List<Double> intervals) {
         Map<Double, Integer> intervalClusters = new HashMap<>();
         for (Double interval : intervals) {
             Double roundedInterval = roundToNearest(interval, 0.0075);
@@ -315,14 +315,14 @@ public class Beats {
     /**
      * Effects: Rounds the given value to the nearest precision.
      */
-    static Double roundToNearest(Double value, Double precision) {
+    public static Double roundToNearest(Double value, Double precision) {
         return Math.round(value / precision) * precision;
     }
 
     /**
      * Effects: Calculates the BPM rate from the interval clusters.
      */
-    static double calculateRateFromClusters(Map<Double, Integer> clusters) {
+    public static double calculateRateFromClusters(Map<Double, Integer> clusters) {
         if (clusters.isEmpty()) {
             return 0;
         }

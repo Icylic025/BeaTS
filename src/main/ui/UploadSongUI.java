@@ -1,7 +1,6 @@
 package ui;
 
 import model.MasterMusicManager;
-import model.Song;
 
 import java.util.Scanner;
 

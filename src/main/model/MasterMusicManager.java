@@ -1,7 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
+import ui.Playlist;
+import ui.Song;
 
 /**
  * MasterMusicManager class manages a master playlist of all the songs the user has stored.

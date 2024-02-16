@@ -1,9 +1,9 @@
 package model;
 
-import model.MusicPlayer;
-import model.Song;
+import ui.MusicPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ui.Song;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -44,7 +44,6 @@ public class MusicPlayerTest {
 
     @Test
     void testPlay2() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-
         mp.play();
     }
 
