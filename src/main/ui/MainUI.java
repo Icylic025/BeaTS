@@ -33,22 +33,6 @@ public class MainUI {
     Song dimple = new Song("BTS", "dimple", "./data/Music/Dimple.wav");
     Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "./data/Music/Don't Leave Me.wav");
 
-    /*
-    Song filmOut = new Song("BTS", "filmOut", "D:/Kylie/Bangtan/Music/Film Out.wav");
-    Song fire = new Song("BTS", "Fire", "D:/Kylie/Bangtan/Music/Fire.wav");
-    Song friends = new Song("BTS", "friends", "D:/Kylie/Bangtan/Music/Friends.wav");
-    Song maCity = new Song("BTS", "Ma City ", "D:/Kylie/Bangtan/Music/Ma City.wav");
-
-    Song magicShop = new Song("BTS", " Magic Shop ", "D:/Kylie/Bangtan/Music/Magic Shop.wav");
-    Song polarNight = new Song("BTS", " PolarNight ", "D:/Kylie/Bangtan/Music/Polar Night.wav");
-    Song shadow = new Song("BTS", " shadow ", "D:/Kylie/Bangtan/Music/Shadow.wav");
-    Song  silverSpoon = new Song("BTS", " Silver Spoon ", "D:/Kylie/Bangtan/Music/Silver Spoon.wav");
-    Song soFarAway = new Song("BTS", " so far away ", "D:/Kylie/Bangtan/Music/So Far Away.wav");
-
-*/
-
-
-
 
 /**
  * Modifies: masterMusicManager
