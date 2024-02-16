@@ -85,6 +85,10 @@ public class Song {
     public void setPlaying(boolean b) {
         isPlaying = true;
     }
+
+    public void setBpm(int bpm) { // for testing, DO NOT USE ANYWHERE ELSE
+        this.bpm = bpm;
+    }
 }
 
 

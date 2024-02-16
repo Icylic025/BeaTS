@@ -48,14 +48,26 @@ public class PlaylistTest {
     @Test
     public void testFilterByBpmBelowLowerBound() {
         int targetBpm = 100;
+        playlist.getSongs().get(0).setBpm(70);
         Playlist filteredPlaylist = playlist.filterByBpm(targetBpm);
 
         assertEquals(0, filteredPlaylist.getSize());
+    }
+    @Test
+    public void testFilterByBpmInBound() {
+        int targetBpm = 100;
+        playlist.getSongs().get(0).setBpm(100);
+        playlist.getSongs().get(1).setBpm(110);
+        playlist.getSongs().get(2).setBpm(90);
+        Playlist filteredPlaylist = playlist.filterByBpm(targetBpm);
+
+        assertEquals(3, filteredPlaylist.getSize());
     }
 
     @Test
     public void testFilterByBpmAboveUpperBound() {
         int targetBpm = 140;
+        playlist.getSongs().get(0).setBpm(170);
         Playlist filteredPlaylist = playlist.filterByBpm(targetBpm);
 
         assertEquals(0, filteredPlaylist.getSize());
