@@ -1,4 +1,4 @@
-package ui;
+package threads;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;

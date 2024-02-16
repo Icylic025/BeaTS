@@ -1,6 +1,6 @@
 package model;
 
-import ui.Beats;
+import threads.Beats;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

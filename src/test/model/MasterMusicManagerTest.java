@@ -1,7 +1,7 @@
 package model;
 
-import ui.Playlist;
-import ui.Song;
+import threads.Playlist;
+import threads.Song;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

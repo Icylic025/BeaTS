@@ -1,4 +1,6 @@
-package ui;
+package threads;
+
+import threads.Song;
 
 import javax.sound.sampled.*;
 import java.io.File;

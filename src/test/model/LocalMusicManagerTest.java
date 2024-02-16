@@ -1,8 +1,8 @@
 package model;
 
 import org.junit.jupiter.api.*;
-import ui.Playlist;
-import ui.Song;
+import threads.Playlist;
+import threads.Song;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,7 @@
 package ui;
 
+import threads.Playlist;
+import threads.Song;
 import model.LocalMusicManager;
 import model.MasterMusicManager;
 

@@ -1,5 +1,6 @@
 package ui;
 
+import threads.Song;
 import model.MasterMusicManager;
 
 import java.util.Scanner;
