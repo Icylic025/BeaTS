@@ -25,12 +25,8 @@ public class MainUI {
 
     ArrayList<Song> songs = new ArrayList<Song>();
     Song cypher4 = new Song("BTS", "Cypher 4", "./data/Music/Cypher 4.wav");
-    Song zero = new Song("BTS", "Zero O'Clock", "./data/Music/0000.wav");
     Song arson = new Song("BTS", "Arson", "./data/Music/Arson.wav");
-    Song amygdala = new Song("BTS", "Amygdala", "./data/Music/Amygdala.wav");
     Song twentyOne = new Song("BTS", "21st Century Girl", "./data/Music/21st Century Girl.wav");
-    Song airplane = new Song("BTS", "Airplane pt 2", "./data/Music/Airplane 2.wav");
-    Song dimple = new Song("BTS", "dimple", "./data/Music/Dimple.wav");
     Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "./data/Music/Don't Leave Me.wav");
 
 
@@ -43,12 +39,8 @@ public class MainUI {
 
 
         masterMusicManager.uploadSongToMaster(cypher4);
-        masterMusicManager.uploadSongToMaster(zero);
         masterMusicManager.uploadSongToMaster(arson);
-        masterMusicManager.uploadSongToMaster(amygdala);
         masterMusicManager.uploadSongToMaster(twentyOne);
-        masterMusicManager.uploadSongToMaster(airplane);
-        masterMusicManager.uploadSongToMaster(dimple);
         masterMusicManager.uploadSongToMaster(dontLeaveMe);
 
         /*

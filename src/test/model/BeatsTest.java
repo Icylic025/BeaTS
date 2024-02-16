@@ -20,7 +20,7 @@ public class BeatsTest {
 
     @BeforeEach
     void setUp() {
-        beats = new Beats("/./data/Music/Fire.wav");
+        beats = new Beats("/./data/Music/Cypher 4.wav");
     }
 
 
@@ -31,7 +31,7 @@ public class BeatsTest {
     @Test
     void testCalculateBeats_CorrectTimeInterval() {
         // Assuming a valid audio file path
-        String validAudioPath = "/./data/Music/Fire.wav";
+        String validAudioPath = "/./data/Music/Cypher 4.wav";
         List<Double> timeList = calculateBeats(validAudioPath);
 
         // Assuming some expected time interval
@@ -231,8 +231,8 @@ public class BeatsTest {
 
     @Test
     void testCalcBeats() {
-        Beats test = new Beats("./data/Music/Fire.wav");
-        test.calculateBeats("./data/Music/Fire.wav");
+        Beats test = new Beats("./data/Music/Cypher 4.wav");
+        test.calculateBeats("./data/Music/Cypher 4.wav");
     }
 
     @Test

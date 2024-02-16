@@ -84,9 +84,6 @@ public class Song {
         return isPlaying;
     }
 
-    public Boolean getIsNotPlayingForTest() {
-        return isNotPlayingForTest;
-    }
 
     public void setPlaying(boolean b) {
         isPlaying = true;

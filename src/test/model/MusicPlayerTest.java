@@ -37,15 +37,16 @@ public class MusicPlayerTest {
         try {
             MusicPlayer musicPlayer = new MusicPlayer(song);
             musicPlayer.play();
-            assertTrue(true);
         } catch (UnsupportedAudioFileException | IOException | javax.sound.sampled.LineUnavailableException e) {
             fail("Exception thrown during MusicPlayer initialization: " + e.getMessage());
         }
     }
 
     @Test
-    void testEverything() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+    void testPlay2() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         MusicPlayer mp = new MusicPlayer(song);
         mp.play();
     }
+
+
 }

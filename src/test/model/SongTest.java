@@ -28,7 +28,7 @@ public class SongTest {
             // Fail the test if an exception occurs
             fail("Exception occurred during playback.");
         }
-        assertFalse(song.getIsNotPlayingForTest());
+        assertFalse(song.getIsPlaying());
 
     }
 

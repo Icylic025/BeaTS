@@ -26,8 +26,8 @@ public class MasterMusicManagerTest {
     @BeforeEach
     void setUp() {
         song1 = new Song("BTS", "Magic Shop", "./data/Music/Music/Arson.wav");
-        song2 = new Song("BTS", "PolarNight", "./data/Music/Polar Night.wav");
-        song3 = new Song("BTS", "Shadow", "./data/Music/Cypher.wav");
+        song2 = new Song("BTS", "PolarNight", "./data/Music/21st Century Girl.wav");
+        song3 = new Song("BTS", "Shadow", "./data/Music/Cypher 4.wav");
         song4 = new Song("BTS", "Silver Spoon", "./data/Music/Don't Leave Me.wav");
         songs = new ArrayList<>();
         songs.add(song1);
