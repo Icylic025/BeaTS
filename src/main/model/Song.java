@@ -68,10 +68,6 @@ public class Song {
         return bpm;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -85,12 +81,12 @@ public class Song {
     }
 
 
-    public void setPlaying(boolean b) {
-        isPlaying = true;
-    }
-
     public void setBpm(int bpm) { // for testing, DO NOT USE ANYWHERE ELSE
         this.bpm = bpm;
+    }
+
+    public void setPlaying(boolean b) {
+        isPlaying = b;
     }
 }
 

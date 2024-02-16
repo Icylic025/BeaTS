@@ -37,8 +37,6 @@ public class MusicPlayer {
             @Override
             public void update(LineEvent event) {
                 if (event.getType() == LineEvent.Type.STOP) {
-                    // System.out.println("Playback stopped");
-                    // Notify the song that playback is finished
                     song.notifyPlaybackFinished();
                 }
             }

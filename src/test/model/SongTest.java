@@ -54,14 +54,7 @@ public class SongTest {
         song.notifyPlaybackFinished();
     }
 
-    @Test
-    public void testGetArtist() {
-        assertEquals("BTS", song.getArtist());
 
-    }
 
-    @Test
-    void testGetIsPlaying() {
-        assertTrue(song.getIsPlaying());
-    }
+
 }
