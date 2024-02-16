@@ -14,7 +14,7 @@ public class SongTest {
 
     @BeforeEach
     void setUp() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-      song = new Song("BTS", "Whistle", "D:/Kylie/Bangtan/Music/Whistle.wav");
+      song = new Song("BTS", "Whistle", "./data/Music/Whistle.wav");
       player = new MusicPlayer(song);
     }
 
@@ -36,6 +36,7 @@ public class SongTest {
     void testPlaySong() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         song.playSong();
     }
+
     @Test
     public void testPlaySongInterrupted() {
         // fake interruption

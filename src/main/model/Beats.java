@@ -32,6 +32,7 @@ public class Beats {
     private List<Double> beats = new ArrayList<Double>();
     private int bpm;
 
+
     /**
      * Requires: Valid audio file path
      * Modifies: this
