@@ -5,6 +5,7 @@ import model.Song;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
@@ -40,5 +41,11 @@ public class MusicPlayerTest {
         } catch (UnsupportedAudioFileException | IOException | javax.sound.sampled.LineUnavailableException e) {
             fail("Exception thrown during MusicPlayer initialization: " + e.getMessage());
         }
+    }
+
+    @Test
+    void testEverything() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        MusicPlayer mp = new MusicPlayer(song);
+        mp.play();
     }
 }
