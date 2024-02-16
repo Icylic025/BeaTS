@@ -38,7 +38,6 @@ public class SongTest {
         // Simulate interruption during playback (e.g., by interrupting the thread)
         Thread.currentThread().interrupt();
 
-        // Call the playSong() method
         try {
             song.playSong();
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
@@ -48,14 +47,12 @@ public class SongTest {
 
     @Test
     public void testNotifyPlaybackFinished() {
-        // Set up the initial state (e.g., isPlaying = true)
         song.setPlaying(true);
 
-        // Call the notifyPlaybackFinished() method
         song.notifyPlaybackFinished();
 
 
-        assertFalse(song.getIsPlaying()); // Check if isPlaying is set to false
+        assertFalse(song.getIsPlaying());
     }
 
     @Test public void testGetSetMethods() {
