@@ -54,7 +54,6 @@ public class SongTest {
 
     @Test public void testGetSetMethods() {
         assertEquals("BTS", song.getArtist());
-
         assertFalse(song.getIsPlaying());
         song.setPlaying(true);
         assertTrue(song.getIsPlaying());
