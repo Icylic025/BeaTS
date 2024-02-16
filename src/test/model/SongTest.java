@@ -6,6 +6,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class SongTest {
     Song song;
     private MusicPlayer player;
@@ -42,5 +44,25 @@ public class SongTest {
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             // Expected exception due to interruption
         }
+    }
+
+    @Test
+    public void testNotifyPlaybackFinished() {
+        // Set up the initial state (e.g., isPlaying = true)
+        song.setPlaying(true);
+
+        // Call the notifyPlaybackFinished() method
+        song.notifyPlaybackFinished();
+
+
+        assertFalse(song.getIsPlaying()); // Check if isPlaying is set to false
+    }
+
+    @Test public void testGetSetMethods() {
+        assertEquals("BTS", song.getArtist());
+
+        assertFalse(song.getIsPlaying());
+        song.setPlaying(true);
+        assertTrue(song.getIsPlaying());
     }
 }

@@ -82,7 +82,9 @@ public class Song {
         return isPlaying;
     }
 
-
+    public void setPlaying(boolean b) {
+        isPlaying = true;
+    }
 }
 
 
