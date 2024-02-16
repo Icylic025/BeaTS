@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class SongTest {
     Song song;
@@ -19,14 +18,29 @@ public class SongTest {
 
 
     @Test
-    public void testPlaySong() {
+    public void testPlaySongSuccessfully() {
         // Call the playSong() method
         try {
-            player.play();
-        } catch (Exception e) {
+            song.playSong();
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
-            fail("Exception occurred during playback.");
+            // Fail the test if an exception occurs during playback
+            assert false : "Exception occurred during playback.";
         }
+
+
     }
 
+    @Test
+    public void testPlaySongInterrupted() {
+        // Simulate interruption during playback (e.g., by interrupting the thread)
+        Thread.currentThread().interrupt();
+
+        // Call the playSong() method
+        try {
+            song.playSong();
+        } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
+            // Expected exception due to interruption
+        }
+    }
 }
