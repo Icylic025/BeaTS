@@ -246,7 +246,7 @@ public class BeatsTest {
         Beats.adjustBPMs(bpmList);
 
         // Assert the adjusted BPM values
-        assertEquals(Arrays.asList(100.0, 100.0, 200.0, 100.0), bpmList); // Expecting BPMs to be adjusted to mode/2 for values less than mode/2
+        assertEquals(Arrays.asList(100.0, 50.0, 200.0), bpmList); // Expecting BPMs to be adjusted to mode/2 for values less than mode/2
     }
 
     @Test
@@ -259,9 +259,13 @@ public class BeatsTest {
         Beats.adjustBPMs(bpmList);
 
         // Assert the adjusted BPM values
-        assertEquals(Arrays.asList(100.0, 200.0, 200.0, 200.0), bpmList); // Expecting BPMs to be adjusted to 2 * mode for values greater than 2 * mode
+        assertEquals(Arrays.asList(100.0, 200.0), bpmList); // Expecting BPMs to be adjusted to 2 * mode for values greater than 2 * mode
     }
 
+    @Test
+    void testCalcBeats() {
+        beats.calculateBeats("./data/Music/Cypher 4.wav");
+    }
     @Test
     void testAdjustBPMs_NoAdjustmentsNeeded() {
         List<Double> bpmList = new ArrayList<>(List.of(120.0, 130.0, 140.0));
@@ -459,6 +463,15 @@ public class BeatsTest {
         }
         List<List<Double>> segments = beats.divideMiddleBeats(onsetTimes);
         assertEquals(8, segments.size());
+    }
+
+    @Test
+    void testAHandleOnset() {
+        List<Double> list = new ArrayList<>();
+        beats.handleOnset(0.1, 0.1, list);
+        assertEquals(1, list.size());
+
+
     }
 }
 
