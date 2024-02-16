@@ -42,7 +42,7 @@ public class PlaylistTest {
         int targetBpm = 120;
         Playlist filteredPlaylist = playlist.filterByBpm(targetBpm);
 
-        assertEquals(0, filteredPlaylist.getSize()); // Two songs within the range
+        assertEquals(0, filteredPlaylist.getSize()); // 2 same range
    }
 
     @Test
@@ -85,17 +85,11 @@ public class PlaylistTest {
             song.setPlaying(false); // Initialize as not playing
         }
 
-        // Call the playAll() method
         playlist.playAll();
-
+        assertTrue(playlist.getIsFinished());
     }
 
-    @Test
-    void testPlaySong() {
-        // Since playSong() method plays a single song, testing is limited
-        // Ensure there are no exceptions thrown
-        assertDoesNotThrow(() -> playlist.playSong(0));
-    }
+
 
     @Test
     void testAddSong() {

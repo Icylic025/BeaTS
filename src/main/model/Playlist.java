@@ -14,6 +14,7 @@ import java.util.Collections;
 
 public class Playlist {
     private ArrayList<Song> songs;
+    private boolean isFinished = false; // for testing
 
     /**
      * Effects: Constructs an empty Playlist object.
@@ -50,6 +51,7 @@ public class Playlist {
      * Effects: Plays all songs in the playlist sequentially, waiting for each song to finish before starting the next.
      */
     public void playAll() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+
         // Variable to keep track of whether the previous song has finished playing
         boolean previousSongFinished = true;
 
@@ -57,18 +59,19 @@ public class Playlist {
             // Wait for the previous song to finish playing before starting the next one
             if (!previousSongFinished) {
                 try {
-                    Thread.sleep(1000); // Adjust sleep time as needed
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
-            // Play the current song
             s.playSong();
 
-            // Set the flag to false, indicating that the current song is playing
+            // current song is playing, no moving
             previousSongFinished = false;
         }
+
+        isFinished = true;
     }
 
     /**
@@ -119,6 +122,10 @@ public class Playlist {
         return songs.size();
     }
 
+    public boolean getIsFinished() {
+        return isFinished;
+    }
+
     /**
      * Requires: Non-null Playlist object
      * Modifies: this
@@ -129,6 +136,8 @@ public class Playlist {
             songs.add(s);
         }
     }
+
+
 }
 
 

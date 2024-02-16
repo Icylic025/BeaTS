@@ -10,6 +10,8 @@ import java.io.IOException;
  *
  * Upon playback completion, the MusicPlayer notifies the associated Song object that playback has finished.
  * This guarantees that no code is executed during play back which interferes with playback.
+ * Some part of code comes from: https://www.geeksforgeeks.org/play-audio-file-using-java/
+ * but adjusted to fit project.
  */
 
 public class MusicPlayer {
@@ -42,7 +44,6 @@ public class MusicPlayer {
             }
         });
     }
-    // test for commit
 
     /**
      * Effects: Starts playback of the audio clip associated with the MusicPlayer object.

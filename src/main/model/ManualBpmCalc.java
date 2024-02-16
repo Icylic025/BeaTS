@@ -37,7 +37,7 @@ public class ManualBpmCalc {
      */
     private int calcManualBpm(List<Double> timeList) {
         if (timeList.size() < 2) {
-            return 0; // Need at least two times to calculate distance
+            return 0; // Need at least two taps/times
         }
 
         ArrayList<Double> distances = new ArrayList<>();

@@ -21,13 +21,12 @@ public class SongTest {
 
     @Test
     public void testPlaySongSuccessfully() {
-        // Call the playSong() method
         try {
             song.playSong();
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             e.printStackTrace();
-            // Fail the test if an exception occurs during playback
-            assert false : "Exception occurred during playback.";
+            // Fail the test if an exception occurs
+            fail("Exception occurred during playback.");
         }
 
 
@@ -35,7 +34,7 @@ public class SongTest {
 
     @Test
     public void testPlaySongInterrupted() {
-        // Simulate interruption during playback (e.g., by interrupting the thread)
+        // fake interruption
         Thread.currentThread().interrupt();
 
         try {

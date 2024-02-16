@@ -89,7 +89,7 @@ public class Beats {
             e.printStackTrace();
         }
         // System.out.println(timeList);
-        return timeList; // Ensure this is the correctly populated list
+        return timeList;
     }
 
     /**
@@ -132,23 +132,19 @@ public class Beats {
 
         List<Double> segmentBPMs = new ArrayList<>();
 
-        // Calculate BPM for each segment
         for (List<Double> segment : dividedSegments) {
             double bpm = processBeatsForBPM(segment);
             segmentBPMs.add(bpm);
         }
 
-        // Adjust BPMs for doubles, halves, and multiples
+        // consider doubles, halves, and multiples (like beats detection can mistake for double and halves)
         adjustBPMs(segmentBPMs);
 
-        // Filter out segments that deviate significantly from the expected tempo
         List<Double> filteredBPMs = filterSegments(segmentBPMs);
 
-        // Calculate final BPM as the average of filtered segment BPMs
         finalBPM = calculateAverageBPM(filteredBPMs);
 
-        // Optionally, you can apply further post-processing or adjustments to finalBPM here
-
+       // 200+ bpm are rare
         if (finalBPM >= 200) {
             finalBPM /= 2;
         }
@@ -161,7 +157,7 @@ public class Beats {
      */
     int calculateAverageBPM(List<Double> bpmList) {
         if (bpmList.isEmpty()) {
-            return 0; // Return 0 if the list is empty
+            return 0;
         }
 
         double sum = 0;
@@ -179,14 +175,14 @@ public class Beats {
         for (int i = 0; i < bpmList.size(); i++) {
             double bpm = bpmList.get(i);
             if (bpm == mode) {
-                continue; // Skip mode, no adjustment needed
+                continue;
             } else if (Math.abs(bpm - 2 * mode) < 20) {
-                bpmList.set(i, 2 * mode); // Adjust doubles
+                bpmList.set(i, 2 * mode);
             } else if (Math.abs(bpm - mode / 2) < 20) {
-                bpmList.set(i, mode / 2); // Adjust halves
+                bpmList.set(i, mode / 2);
             } else if (bpm < mode / 2 || bpm > 2 * mode) {
-                bpmList.remove(i); // Remove completely off segments
-                i--; // Adjust index after removal
+                bpmList.remove(i);
+                i--; // change index back due to removal
             }
         }
     }
@@ -197,10 +193,10 @@ public class Beats {
     List<Double> filterSegments(List<Double> segments) {
         List<Double> filteredBPMs = new ArrayList<>();
         double mode = findMode((ArrayList<Double>) segments);
-        double threshold = 20; // Adjust as needed based on expected deviation
+        double threshold = 20; // Adjust plus minus
 
         for (double bpm : segments) {
-            // Exclude segments that deviate significantly from the mode BPM
+            // Exclude if difference more than threshold
             if (Math.abs(bpm - mode) < threshold) {
                 filteredBPMs.add(bpm);
             }
@@ -214,23 +210,23 @@ public class Beats {
      */
     public static double findMode(ArrayList<Double> list) {
         if (list.isEmpty()) {
-            return 0; // Return null if the list is empty
+            return 0;
         }
 
         double mode = list.get(0);
-        int maxFrequency = 1; // Starting with the first element
+        int max = 1;
 
         for (int i = 0; i < list.size(); i++) {
-            double currentValue = list.get(i);
-            int currentFrequency = 0;
+            double current = list.get(i);
+            int appearances = 0;
             for (Double value : list) {
-                if (value.equals(currentValue)) {
-                    currentFrequency++;
+                if (value.equals(current)) {
+                    appearances++;
                 }
             }
-            if (currentFrequency > maxFrequency) {
-                maxFrequency = currentFrequency;
-                mode = currentValue;
+            if (appearances > max) {
+                max = appearances;
+                mode = current;
             }
         }
 
@@ -244,7 +240,7 @@ public class Beats {
      */
     static List<Double> getFirstOrLast16Beats(List<Double> onsetTimes, boolean first) {
         if (onsetTimes.size() < 16) {
-            return onsetTimes; // Not enough data to differentiate between first and last
+            return onsetTimes; // Not enough data
         }
         return first ? onsetTimes.subList(0, 16) : onsetTimes.subList(onsetTimes.size() - 16, onsetTimes.size());
     }
@@ -257,7 +253,7 @@ public class Beats {
      */
     static double processBeatsForBPM(List<Double> beats) {
         if (beats.size() < 2) {
-            return 0; // Not enough beats to calculate BPM
+            return 0; // Not enough
         }
 
         List<Double> intervals = new ArrayList<>();
@@ -327,7 +323,7 @@ public class Beats {
      */
     static double calculateRateFromClusters(Map<Double, Integer> clusters) {
         if (clusters.isEmpty()) {
-            return 0; // No data to calculate BPM
+            return 0;
         }
 
         // Find the interval with the most occurrences
@@ -340,10 +336,10 @@ public class Beats {
      * Effects: Divides the middle beats into segments.
      */
     public static List<List<Double>> divideMiddleBeats(List<Double> onsetTimes) {
-        // Exclude the first 16 and last 16 beats
+        // Exclude the first 16 and last 16 beats since they are seperate calc
         int totalBeats = onsetTimes.size();
         if (totalBeats <= 32) {
-            return new ArrayList<>(); // Return empty list if not enough beats
+            return new ArrayList<>(); // Return empty if not enough beats
         }
 
         List<Double> middleBeats = onsetTimes.subList(16, totalBeats - 16);
