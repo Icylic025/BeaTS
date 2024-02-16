@@ -1,6 +1,6 @@
 package ui;
 
-import threads.Song;
+import ui.threads.Song;
 import model.MasterMusicManager;
 
 import javax.sound.sampled.LineUnavailableException;

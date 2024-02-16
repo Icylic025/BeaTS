@@ -1,6 +1,6 @@
 package ui;
 
-import threads.Playlist;
+import ui.threads.Playlist;
 import model.ManualBpmCalc;
 import model.LocalMusicManager;
 import model.MasterMusicManager;

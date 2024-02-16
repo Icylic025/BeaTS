@@ -1,7 +1,7 @@
 package model;
 
-import threads.Playlist;
-import threads.Song;
+import ui.threads.Playlist;
+import ui.threads.Song;
 
 /**
  * MasterMusicManager class manages a master playlist of all the songs the user has stored.

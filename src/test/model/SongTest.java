@@ -2,8 +2,8 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import threads.MusicPlayer;
-import threads.Song;
+import ui.threads.MusicPlayer;
+import ui.threads.Song;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
