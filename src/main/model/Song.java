@@ -18,6 +18,7 @@ public class Song {
     private Beats beats;
     private int bpm;
     private boolean isPlaying = false;
+    private boolean isNotPlayingForTest = false;
 
     /**
      * Requires: Valid artist, title, and file path strings
@@ -48,6 +49,7 @@ public class Song {
         // Wait until playback finishes
         try {
             wait();
+            isNotPlayingForTest = false;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -80,6 +82,10 @@ public class Song {
 
     public Boolean getIsPlaying() {
         return isPlaying;
+    }
+
+    public Boolean getIsNotPlayingForTest() {
+        return isNotPlayingForTest;
     }
 
     public void setPlaying(boolean b) {
