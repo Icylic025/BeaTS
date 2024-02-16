@@ -25,9 +25,6 @@ public class Song {
      * Effects: Constructs a Song object with the provided artist, title, and file path.
      *          Initializes the Beats object for the song to calculate BPM.
      */
-    // Flags to simulate exceptions during testing
-    private boolean simulateLineUnavailable = false;
-    private boolean simulateIOException = false;
 
 
     public Song(String artist, String title, String filePath) {
@@ -38,40 +35,6 @@ public class Song {
         this.bpm = beats.getBpm();
     }
 
-    // Existing code...
-
-    // Method to manually set whether LineUnavailableException should be simulated during playback
-    public void setSimulateLineUnavailable(boolean simulateLineUnavailable) {
-        this.simulateLineUnavailable = simulateLineUnavailable;
-    }
-
-    // Method to manually set whether IOException should be simulated during playback
-    public void setSimulateIOException(boolean simulateIOException) {
-        this.simulateIOException = simulateIOException;
-    }
-
-    // Existing code...
-
-    // Method to play the song, potentially throwing exceptions based on simulation flags
-    public synchronized void playSongForTest()
-            throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        if (simulateLineUnavailable) {
-            throw new LineUnavailableException();
-        }
-        if (simulateIOException) {
-            throw new IOException();
-        }
-
-        MusicPlayer player = new MusicPlayer(this);
-        player.play();
-
-        // Wait until playback finishes
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     /**
