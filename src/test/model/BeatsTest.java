@@ -20,7 +20,7 @@ public class BeatsTest {
 
     @BeforeEach
     void setUp() {
-        beats = new Beats("D:/Kylie/Bangtan/Music/Fire.wav");
+        beats = new Beats("/./data/Music/Fire.wav");
     }
 
 
