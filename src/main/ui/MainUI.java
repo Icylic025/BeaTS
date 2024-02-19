@@ -22,11 +22,13 @@ public class MainUI {
     private MasterMusicManager masterMusicManager = new MasterMusicManager();
 
     ArrayList<Song> songs = new ArrayList<Song>();
+
+    /*
     Song cypher4 = new Song("BTS", "Cypher 4", "./data/Music/Cypher 4.wav");
     Song arson = new Song("BTS", "Arson", "./data/Music/Arson.wav");
     Song twentyOne = new Song("BTS", "21st Century Girl", "./data/Music/21st Century Girl.wav");
-    Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "./data/Music/Don't Leave Me.wav");
-
+    Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "./data/Music/Whistle.wav");
+    */
 
 /**
  * Modifies: masterMusicManager
@@ -35,11 +37,12 @@ public class MainUI {
  */
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
-
+        /*
         masterMusicManager.uploadSongToMaster(cypher4);
         masterMusicManager.uploadSongToMaster(arson);
         masterMusicManager.uploadSongToMaster(twentyOne);
         masterMusicManager.uploadSongToMaster(dontLeaveMe);
+        */
 
         /*
         masterMusicManager.uploadSongToMaster(filmOut);

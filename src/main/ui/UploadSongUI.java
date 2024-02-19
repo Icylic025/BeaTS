@@ -34,6 +34,7 @@ public class UploadSongUI {
         String title;
         String artist;
         String filepath;
+        String input;
 
         System.out.println("Please enter the title of the song to upload: ");
         title = scanner.nextLine();
@@ -42,10 +43,11 @@ public class UploadSongUI {
         artist = scanner.nextLine();
 
 
-        System.out.println("Please enter the filepath of the song to upload: ");
-        filepath = scanner.nextLine();
-
-        System.out.println("Please enter the name of the file you wish to upload: ");
+        System.out.println("Please go upload the song as a WAV file "
+                + "titled the name of the song to /data/Music of this project: ");
+        System.out.println("Press Enter when file is uploaded");
+        scanner.nextLine();
+        filepath = "./data/Music/" + title + ".wav";
 
         try {
             Song upload = new Song(artist, title, filepath);
@@ -53,6 +55,7 @@ public class UploadSongUI {
             System.out.println("Something went wrong with the upload.");
         }
 
+        System.out.println(title + "by" + artist + "has been successfully uploaded");
         return new Song(artist, title, filepath);
     }
 

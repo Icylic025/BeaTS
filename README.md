@@ -32,6 +32,6 @@ having a music pace setter will be very practical.
 
 ### User Stories
 - As a user, I want to be able to insert wav files into a playlist of music
-- As a user, I want to be able to view my playlist and filter the playlist
-- As a user, I want to be able to find the bpm of music files I input (perhaps initially this can be done manually)
+- As a user, I want to be able to view my playlist and shuffle the playlist
+- As a user, I want to be able to filter the bpm of music files I input (perhaps initially bpm input can be done manually)
 - As a user, I want to be able to manually input a beat and get filtered songs with the same bpm

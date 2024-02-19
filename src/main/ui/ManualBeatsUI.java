@@ -23,9 +23,7 @@ import java.util.Scanner;
 
 public class ManualBeatsUI {
     private ManualBpmCalc beatCalc;
-    private int manualBpm;
     Playlist playlist;
-    LocalMusicManager localMusicManager;
     MasterMusicManager masterMusicManager;
 
 

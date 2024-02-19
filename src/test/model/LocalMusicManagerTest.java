@@ -19,8 +19,8 @@ public class LocalMusicManagerTest {
 
     @BeforeEach
     void setUp() {
-        song1 = new Song("BTS", "Magic Shop", "./data/Music/Don't Leave Me.wav");
-        song2 = new Song("BTS", "PolarNight", "./data/Music/Cypher 4.wav");
+        song1 = new Song("BTS", "Magic Shop", "./data/Music/Whistle.wav");
+        song2 = new Song("BTS", "PolarNight", "./data/Music/Whistle.wav");
         song3 = new Song("BTS", "Shadow", "./data/Music/Music/Whistle.wav");
         song4 = new Song("BTS", "Silver Spoon", "./data/Music/Whistle.wav");
         songs.add(song1);
