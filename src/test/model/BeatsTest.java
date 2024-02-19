@@ -224,8 +224,8 @@ public class BeatsTest {
 
     @Test
     void testCalcBeats() {
-        Beats test = new Beats("./data/Music/Cypher 4.wav");
-        test.calculateBeats("./data/Music/Cypher 4.wav");
+        Beats test = new Beats("./data/Music/Whistle.wav");
+        test.calculateBeats("./data/Music/Whistle.wav");
     }
 
     @Test
