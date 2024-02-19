@@ -29,14 +29,17 @@ public class MainUI {
     Song twentyOne = new Song("BTS", "21st Century Girl", "./data/Music/21st Century Girl.wav");
     Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "./data/Music/Whistle.wav");
     */
+    Song whistle = new Song("BTS", "Whistle", "./data/Music/Whistle.wav");
 
-/**
+
+    /**
  * Modifies: masterMusicManager
  * Effects: Constructs a MainUI object, initializes a scanner for user input,
  * and uploads predefined songs to the master music manager.
  */
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
+        masterMusicManager.uploadSongToMaster(whistle);
         /*
         masterMusicManager.uploadSongToMaster(cypher4);
         masterMusicManager.uploadSongToMaster(arson);

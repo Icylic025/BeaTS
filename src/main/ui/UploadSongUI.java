@@ -50,12 +50,13 @@ public class UploadSongUI {
         filepath = "./data/Music/" + title + ".wav";
 
         try {
+            System.out.println("Song is uploading, please wait (this may take a while)");
             Song upload = new Song(artist, title, filepath);
         } catch (Exception e) {
             System.out.println("Something went wrong with the upload.");
         }
 
-        System.out.println(title + "by" + artist + "has been successfully uploaded");
+        System.out.println(title + " by " + artist + " has been successfully uploaded");
         return new Song(artist, title, filepath);
     }
 
