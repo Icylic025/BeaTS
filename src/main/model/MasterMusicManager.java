@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
 import ui.threads.Playlist;
 import ui.threads.Song;
 
@@ -18,7 +21,7 @@ import ui.threads.Song;
  *
  */
 
-public class MasterMusicManager {
+public class MasterMusicManager implements Writable {
     private Playlist masterPlaylist;
 
     /**
@@ -28,6 +31,8 @@ public class MasterMusicManager {
         masterPlaylist = new Playlist();
 
     }
+
+
 
     /**
      * Requires: Non-null Song object
@@ -43,6 +48,10 @@ public class MasterMusicManager {
         return masterPlaylist;
     }
 
+    public int getSize() {
+        return masterPlaylist.getSize();
+    }
+
 
     /**
      * Requires: Valid index within the range of the master playlist
@@ -53,4 +62,9 @@ public class MasterMusicManager {
         masterPlaylist.deleteSong(index);
     }
 
+
+    @Override
+    public JSONObject toJson() {
+        return masterPlaylist.toJson();
+    }
 }

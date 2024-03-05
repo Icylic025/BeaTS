@@ -1,10 +1,13 @@
 package ui;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
 import ui.threads.Song;
 import model.MasterMusicManager;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,8 +21,12 @@ import java.util.Scanner;
 
 public class MainUI {
 
+    private static final String JSON_STORE = "./data/masterplaylist.json";
+
     private Scanner input = new Scanner(System.in);
     private MasterMusicManager masterMusicManager = new MasterMusicManager();
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     ArrayList<Song> songs = new ArrayList<Song>();
 
@@ -40,6 +47,8 @@ public class MainUI {
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
 
         masterMusicManager.uploadSongToMaster(whistle);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
         /*
         masterMusicManager.uploadSongToMaster(cypher4);
         masterMusicManager.uploadSongToMaster(arson);
@@ -78,6 +87,8 @@ public class MainUI {
         System.out.println("\t u -> Upload Song");
         System.out.println("\t v -> View Songs");
         System.out.println("\t m -> Manual Beat Detection");
+        System.out.println("\t s -> Save");
+        System.out.println("\t l -> Load");
         System.out.println("\t q -> Quit Application\n");
 
         command = input.next();
@@ -100,13 +111,40 @@ public class MainUI {
             System.exit(0);
         } else if (command.equals("u")) {
             new UploadSongUI(masterMusicManager);
+            loadMasterPlaylist();
         } else if (command.equals("v")) {
             new PlaylistUI(masterMusicManager);
         } else if (command.equals("m")) {
             new ManualBeatsUI(masterMusicManager);
+        } else if (command.equals("s")) {
+            saveMasterPlaylist();
+        } else if (command.equals("l")) {
+            loadMasterPlaylist();
         } else {
             System.out.println("Sorry " + command + " was not a valid input, please select from the menu.");
         }
     }
 
+    // save the master playlist to file
+    public void saveMasterPlaylist() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(masterMusicManager);
+            jsonWriter.close();
+            System.out.println("Your songs have been saved to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+
+    }
+
+    // load the master playlist from file
+    private void loadMasterPlaylist() {
+        try {
+            masterMusicManager = jsonReader.readMaster();
+            System.out.println("Music has been loaded from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
 }

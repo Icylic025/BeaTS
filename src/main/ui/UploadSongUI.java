@@ -1,8 +1,11 @@
 package ui;
 
+import model.UploadException;
 import ui.threads.Song;
 import model.MasterMusicManager;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -11,7 +14,7 @@ import java.util.Scanner;
  * creates a Song object with the provided details, and uploads it to the MasterMusicManager.
  */
 
-public class UploadSongUI {
+public class UploadSongUI extends UploadException {
 
     /**
      * Requires: masterMusicManager to be initialized with a valid instance of MasterMusicManager.
@@ -20,8 +23,13 @@ public class UploadSongUI {
      *          creates a Song object with the provided details, and uploads it to the master music manager.
      */
     public UploadSongUI(MasterMusicManager masterMusicManager) {
-        Song selectedSong = selectSongFromUser();
-        masterMusicManager.uploadSongToMaster(selectedSong);
+        try {
+            Song selectedSong = selectSongFromUser();
+            masterMusicManager.uploadSongToMaster(selectedSong);
+        } catch (UploadException e) {
+            System.out.println("Something went wrong with upload");
+        }
+
     }
 
 
@@ -29,12 +37,12 @@ public class UploadSongUI {
      * Effects: Prompts the user to enter the title, artist, and filepath of the song to be uploaded,
      *          creates a Song object with the provided details, and returns it.
      */
-    private Song selectSongFromUser() {
+    private Song selectSongFromUser() throws UploadException {
         Scanner scanner = new Scanner(System.in);
         String title;
         String artist;
         String filepath;
-        String input;
+        Song song = null;
 
         System.out.println("Please enter the title of the song to upload: ");
         title = scanner.nextLine();
@@ -49,15 +57,16 @@ public class UploadSongUI {
         scanner.nextLine();
         filepath = "./data/Music/" + title + ".wav";
 
-        try {
-            System.out.println("Song is uploading, please wait (this may take a while)");
-            Song upload = new Song(artist, title, filepath);
-        } catch (Exception e) {
-            System.out.println("Something went wrong with the upload.");
+
+
+        if (Files.exists(Paths.get(filepath))) {
+            song = new Song(artist, title, filepath);
+            System.out.println(title + " by " + artist + " has been successfully uploaded");
+            return song;
+        } else {
+            throw new UploadException();
         }
 
-        System.out.println(title + " by " + artist + " has been successfully uploaded");
-        return new Song(artist, title, filepath);
     }
 
 }

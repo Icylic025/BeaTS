@@ -1,5 +1,7 @@
 package ui;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
 import ui.threads.Playlist;
 import ui.threads.Song;
 import model.LocalMusicManager;
@@ -7,6 +9,7 @@ import model.MasterMusicManager;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
@@ -22,11 +25,18 @@ import java.util.Scanner;
  */
 
 public class PlaylistUI {
+    private static final String JSON_STORE = "./data/localplaylist.json";
+    private static final String JSON_STORE_M = "./data/masterplaylist.json";
+
 
     Playlist playlist;
     Scanner scanner = new Scanner(System.in);
     LocalMusicManager localMusicManager = new LocalMusicManager(new Playlist());
     MasterMusicManager masterMusicManager;
+    JsonWriter jsonWriter = new JsonWriter(JSON_STORE);
+    JsonReader jsonReader = new JsonReader(JSON_STORE);
+    JsonWriter jsonWriterMaster = new JsonWriter(JSON_STORE_M);
+    JsonReader jsonReaderMaster = new JsonReader(JSON_STORE_M);
 
     /**
      * Requires: masterMusicManager to be initialized with a valid instance of MasterMusicManager.
@@ -37,6 +47,8 @@ public class PlaylistUI {
             throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         this.masterMusicManager = masterMusicManager;
         playlist = masterMusicManager.getMasterPlaylist();
+
+
         runPlaylistUI();
     }
 
@@ -93,13 +105,16 @@ public class PlaylistUI {
             System.out.println("\ta -> Add Song");
             System.out.println("\td -> Delete Song");
             System.out.println("\tp -> Play All");
+            System.out.println("\tv -> Save current playlist");
+            System.out.println("\to -> Load saved playlist");
             System.out.println("\tb -> Back to Main Menu");
             System.out.println("\tq -> Quit Application");
 
             command = scanner.next();
             command = command.toLowerCase();
             if (command.equals("l") || command.equals("f") || command.equals("s") || command.equals("a")
-                    || command.equals("d") || command.equals("p") || command.equals("b") || command.equals("q")) {
+                    || command.equals("d") || command.equals("p") || command.equals("b") || command.equals("q")
+                    || command.equals("v") || command.equals("o")) {
                 return command;
             }
             System.out.println("Sorry " + command + "is not a valid input, please select from the menu.");
@@ -128,9 +143,62 @@ public class PlaylistUI {
             playAll();
         } else if (command.equals("l")) {
             listen();
+        } else if (command.equals("v")) {
+            saveLocal(masterMusicManager);
+        } else if (command.equals("o")) {
+            loadLocal();
         } else {
             delete();
         }
+    }
+
+    /**
+     * Effects: save local playlist into Json and also save the master playlist
+     */
+    private void saveLocal(MasterMusicManager masterMusicManager) throws UnsupportedAudioFileException,
+            LineUnavailableException, IOException {
+        try {
+            // Save the master playlist
+            jsonWriterMaster.open();
+            jsonWriterMaster.write(masterMusicManager);
+            jsonWriterMaster.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write masterplaylist to file: " + JSON_STORE);
+        }
+
+        // Save the local playlist
+        localMusicManager = new LocalMusicManager(playlist);
+        try {
+            jsonWriter.open();
+            jsonWriter.write(localMusicManager);
+            jsonWriter.close();
+            System.out.println("Your current playlist has been saved to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write current playlist to file: " + JSON_STORE);
+        }
+        new PlaylistUI(localMusicManager, masterMusicManager);
+    }
+
+
+    /**
+     * Effects: load local playlist from Json
+     */
+    private void loadLocal() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+
+        try {
+            masterMusicManager = jsonReader.readMaster();
+        } catch (IOException e) {
+            System.out.println("Unable to read masterplaylist from file: " + JSON_STORE);
+        }
+
+        try {
+            localMusicManager = jsonReader.readLocal();
+            System.out.println("Music has been loaded from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+
+        new PlaylistUI(localMusicManager, masterMusicManager);
     }
 
     /**

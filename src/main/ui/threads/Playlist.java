@@ -1,5 +1,9 @@
 package ui.threads;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
@@ -12,7 +16,7 @@ import java.util.Collections;
  * add and delete songs, shuffle the playlist, and retrieve information about the playlist.
  */
 
-public class Playlist {
+public class Playlist implements Writable {
     private ArrayList<Song> songs;
 
     /**
@@ -117,6 +121,10 @@ public class Playlist {
         return songs;
     }
 
+    public Song getSong(int i) {
+        return songs.get(i);
+    }
+
     public int getSize() {
         return songs.size();
     }
@@ -134,7 +142,19 @@ public class Playlist {
         }
     }
 
+    @Override
+    public JSONObject toJson() {
 
+        JSONArray jsonArray = new JSONArray();
+        for (Song song : songs) {
+            jsonArray.put(song.toJson()); // Assuming toJson() is a method in Song that returns a JSONObject
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("songs", jsonArray); // Directly use "songs" here
+        return jsonObject;
+
+
+    }
 }
 
 

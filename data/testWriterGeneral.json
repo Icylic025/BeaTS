@@ -1,0 +1,32 @@
+{"songs": [
+  {
+    "filepath": "./data/Music/Whistle.wav",
+    "artist": "BTS",
+    "title": "Whistle",
+    "bpm": 0
+  },
+  {
+    "filepath": "./data/Music/Silver Spoon.wav",
+    "artist": "BTS",
+    "title": "Silver Spoon",
+    "bpm": 167
+  },
+  {
+    "filepath": "./data/Music/Polar Night.wav",
+    "artist": "",
+    "title": "Polar Night",
+    "bpm": 154
+  },
+  {
+    "filepath": "./data/Music/Arson.wav",
+    "artist": "",
+    "title": "Arson",
+    "bpm": 100
+  },
+  {
+    "filepath": "./data/Music/21st Century Girl.wav",
+    "artist": "",
+    "title": "21st Century Girl",
+    "bpm": 100
+  }
+]}

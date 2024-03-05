@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
 import ui.threads.Playlist;
 import ui.threads.Song;
 
@@ -20,7 +22,7 @@ import java.util.List;
  *
  */
 
-public class LocalMusicManager {
+public class LocalMusicManager implements Writable {
     private Playlist playlist;
     private List<Song> uploadedSongs;
 
@@ -70,4 +72,10 @@ public class LocalMusicManager {
     public void deleteSongFromPlaylist(int index) {
         playlist.deleteSong(index);
     }
+
+    @Override
+    public JSONObject toJson() {
+        return playlist.toJson();
+    }
+
 }

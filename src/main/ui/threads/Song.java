@@ -1,5 +1,7 @@
 package ui.threads;
 
+import org.json.JSONObject;
+
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
@@ -36,6 +38,14 @@ public class Song {
         this.bpm = beats.getBpm();
     }
 
+    public Song(String artist, String title, String filePath, int bpm) {
+        this.artist = artist;
+        this.title = title;
+        this.filePath = filePath;
+        this.beats = new Beats(filePath);
+        this.bpm = bpm;
+    }
+
 
 
     /**
@@ -68,6 +78,10 @@ public class Song {
         return bpm;
     }
 
+    public String getArtist() {
+        return artist;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -87,6 +101,15 @@ public class Song {
 
     public void setPlaying(boolean b) {
         isPlaying = b;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("artist", artist);
+        json.put("title", title);
+        json.put("filepath", filePath);
+        json.put("bpm", bpm);
+        return json;
     }
 }
 
