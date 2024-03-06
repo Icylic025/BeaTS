@@ -10,14 +10,15 @@ import java.util.List;
 /**
  * LocalMusicManager class is a bridge between the UI and all the function backend classes
  * It stores local music that the user creates ie. a filtered playlist, or a shuffled playlist.
- *
+ * A local music manager can also be saved and loaded from Json. Saving a local manager also
+ * saves the master music manager, however loading a local music manager will not load the master.
  * It might be confusing the difference between this class and MasterMusicManager,
  * here are the key differences:
  *  - More than one LocalMusicManager can exist although only one is shown and the rest
  *    will just stack
  *  - Deleting a song from the LocalMusicManager is not permenant deletion, it still exists
  *    in the program and the master playlist
- *  - Once you close a LocalMusicManager, it is gone. ie. if you shuffle a playlist
+ *  - Once you close a LocalMusicManager, it is gone unless you have saved it. ie. if you shuffle a playlist
  *    and go back to main menu, the shuffled list is lost.
  *
  */

@@ -9,7 +9,8 @@ import ui.threads.Song;
 /**
  * MasterMusicManager class manages a master playlist of all the songs the user has stored.
  * It is a storage and a bridge between the UI and all the function backend classes
- *
+ * A master music manager can be saved and loaded again. However, saving a master manager
+ * does not save any local managers.
  * It might be confusing the difference between this class and LocalMusicManager,
  * here are the key differences:
  * - Only one MasterMusicManager should exist
@@ -17,7 +18,7 @@ import ui.threads.Song;
  * - The sole MasterMusicManager is passed through all UI classes
  *   therefore it should not be refreshed and lose progress of storage of user's music
  * - Deleting a song from the master playlist will permanently delete it until it is
- *   uploaded again.
+ *   uploaded again (unless saved in a json).
  *
  */
 
