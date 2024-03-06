@@ -1,4 +1,5 @@
-package model;
+package ui.exceptions;
 
 public class UploadException extends Exception {
+
 }

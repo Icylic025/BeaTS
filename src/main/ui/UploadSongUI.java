@@ -1,6 +1,6 @@
 package ui;
 
-import model.UploadException;
+import ui.exceptions.UploadException;
 import ui.threads.Song;
 import model.MasterMusicManager;
 
