@@ -64,6 +64,9 @@ public class MasterMusicManager implements Writable {
     }
 
 
+    /**
+     * Effects: parse itself into json
+     */
     @Override
     public JSONObject toJson() {
         return masterPlaylist.toJson();

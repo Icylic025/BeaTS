@@ -17,17 +17,35 @@ public class JsonReader {
 
     private String source;
 
-    // EFFECTS: constructs reader to read from source file
+    /**
+     * This is a class that works together with JsonReader to support data persistance in this project. It works
+     *  It is in charge of reading stored Json files created by JsonWriter and parsing them into Local or Master
+     *  Music Managers
+     */
+
+    /**
+     * EFFECTS: constructs reader to read from source file
+     */
     public JsonReader(String source) {
         this.source = source;
     }
 
+    /**
+     * Effects: reads the json data for a MasterMusicManager and
+     * parses it into a MasterMusicManager, will throw IOException
+     * if there is a problem with reading in the json file
+     */
     public MasterMusicManager readMaster() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseMaster(jsonObject);
     }
 
+    /**
+     * Effects: reads the json data for a LocalMusicManager and
+     * parses it into a LocalMusicManager, will throw IOException
+     * if there is a problem with reading in the json file
+     */
     public LocalMusicManager readLocal() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
@@ -46,6 +64,10 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    /**
+     * Effects: returns a MasterMusicManager from a Json object by going through
+     * through each song
+     */
     private MasterMusicManager parseMaster(JSONObject obj) {
         MasterMusicManager mm = new MasterMusicManager();
         JSONArray arr = obj.getJSONArray("songs");
@@ -57,6 +79,10 @@ public class JsonReader {
         return mm;
     }
 
+    /**
+     * Effects: returns a LocalMusicManager from a Json object by going through
+     * through each song
+     */
     private LocalMusicManager parseLocal(JSONObject obj) {
         LocalMusicManager lm = new LocalMusicManager(new Playlist());
         JSONArray arr = obj.getJSONArray("songs");
@@ -68,6 +94,9 @@ public class JsonReader {
         return lm;
     }
 
+    /**
+     * Effects: form a song object from a json object and adds it to the mastermusic manager
+     * */
     private void addSongToMaster(MasterMusicManager m, JSONObject s) {
         String title = s.getString("title");
         String artist = s.getString("artist");

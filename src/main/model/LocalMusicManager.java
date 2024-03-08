@@ -74,6 +74,9 @@ public class LocalMusicManager implements Writable {
         playlist.deleteSong(index);
     }
 
+    /**
+     * Effects: parse itself into json
+     */
     @Override
     public JSONObject toJson() {
         return playlist.toJson();

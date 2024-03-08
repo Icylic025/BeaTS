@@ -35,3 +35,8 @@ having a music pace setter will be very practical.
 - As a user, I want to be able to view my playlist and shuffle the playlist
 - As a user, I want to be able to filter the bpm of music files I input (perhaps initially bpm input can be done manually)
 - As a user, I want to be able to manually input a beat and get filtered songs with the same bpm
+- As a user, I want to be able save my filtered/shuffled/manipulated playlist
+- As a user, I want to be able save the music I uploaded
+- As a user, I want to be able loaded my previously saved filtered/shuffled/manipulated playlist
+- As a user, I want to be able load my previously saved music I uploaded
+

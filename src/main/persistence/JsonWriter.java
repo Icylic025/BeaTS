@@ -7,6 +7,12 @@ import org.json.JSONObject;
 
 import java.io.*;
 
+/**
+ * This is a class that works together with JsonWriter to support data persistance in this project. It works
+ *  It is in charge of writing a Master or Local Music Manager into Json
+ */
+
+
 // Represents a writer that writes JSON representation of workroom to file
 public class JsonWriter {
     private static final int TAB = 4;
