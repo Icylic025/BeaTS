@@ -6,11 +6,18 @@ import model.MasterMusicManager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.file.Files;
 
+/**
+ * The UploadSongGUI class provides a graphical user interface (GUI) for uploading songs to the MasterMusicManager.
+ * It allows users to input details such as the song title, artist, and select a song file for upload. Upon
+ * confirmation, the selected song is uploaded to the master music manager. This class manages the GUI components
+ * including text fields, buttons, and status labels to facilitate the upload process. Additionally, it handles
+ * user interactions such as selecting a song file, attempting the upload, and displaying status messages. The
+ * UploadSongGUI class enhances user experience by providing a user-friendly interface for uploading songs
+ * seamlessly within the application.
+ */
 public class UploadSongGUI extends JFrame {
 
     private MasterMusicManager masterMusicManager;
@@ -21,11 +28,20 @@ public class UploadSongGUI extends JFrame {
     private JButton confirmButton;
     private File selectedFile;
 
+    /**
+     * Modifies: this (UploadSongGUI object)
+     * Effects: Constructs an UploadSongGUI window with a reference to the MasterMusicManager and initializes the
+     *          user interface.
+     */
     public UploadSongGUI(MasterMusicManager masterMusicManager) {
         this.masterMusicManager = masterMusicManager;
         initializeUI();
     }
 
+    /**
+     * Modifies: this (main frame and its components)
+     * Effects: Sets up the main frame, initializes fields, and configures buttons and status label.
+     */
     private void initializeUI() {
         setupMainFrame();
         initializeFields();
@@ -35,6 +51,10 @@ public class UploadSongGUI extends JFrame {
 
     }
 
+    /**
+     * Modifies: this (JFrame properties)
+     * Effects: Sets up the main frame's properties, such as title, size, close operation, layout, and visibility.
+     */
     private void setupMainFrame() {
         setTitle("Upload Song");
         setSize(400, 300);
@@ -44,6 +64,10 @@ public class UploadSongGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Modifies: this (adds text fields to the layout)
+     * Effects: Initializes and adds text fields for song title and artist to the main frame.
+     */
     private void initializeFields() {
         titleField = new JTextField();
         addFormField("Song Title: ", titleField);
@@ -52,6 +76,10 @@ public class UploadSongGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Modifies: this (adds upload button to the layout)
+     * Effects: Sets up the upload button with an action listener for selecting a song file.
+     */
     private void setupUploadButton() {
         uploadButton = new JButton("Select Song File");
         uploadButton.addActionListener(e -> selectSongFile());
@@ -59,12 +87,20 @@ public class UploadSongGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Modifies: this (adds status label to the layout)
+     * Effects: Sets up the status label to display the current status of file selection.
+     */
     private void setupStatusLabel() {
         statusLabel = new JLabel("No file selected");
         add(statusLabel);
         setVisible(true);
     }
 
+    /**
+     * Modifies: this (adds confirm button to the layout)
+     * Effects: Sets up the confirm button with an action listener to attempt the upload process.
+     */
     private void setupConfirmButton() {
         confirmButton = new JButton("Upload Song");
         confirmButton.addActionListener(e -> attemptUpload());
@@ -72,6 +108,11 @@ public class UploadSongGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Modifies: this (selectedFile and statusLabel)
+     * Effects: Opens a file chooser dialog, allows the user to select a song file,
+     *          and updates the status label with the file name.
+     */
     private void selectSongFile() {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
@@ -82,6 +123,11 @@ public class UploadSongGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Modifies: masterMusicManager (adds a new song), this (closes the window)
+     * Effects: Attempts to upload the selected song file to the master
+     *          music manager and either closes the window upon success or displays an error message.
+     */
     private void attemptUpload() {
         try {
             uploadSong();
@@ -101,6 +147,10 @@ public class UploadSongGUI extends JFrame {
         }
     }
 
+    /**
+     * Modifies: this (layout by adding form fields)
+     * Effects: Adds a labeled text field to the main frame for user input.
+     */
     private void addFormField(String label, JTextField textField) {
         JPanel panel = new JPanel(new FlowLayout());
         JLabel jlabel = new JLabel(label);
@@ -111,13 +161,17 @@ public class UploadSongGUI extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Requires: selectedFile must exist and be accessible
+     * Modifies: masterMusicManager (adds a new song)
+     * Effects: Validates and uploads a new song to the master music manager,
+     *          displaying a success message or throwing an UploadException on failure.
+     */
     private void uploadSong() throws UploadException {
         String title = titleField.getText();
         String artist = artistField.getText();
         if (selectedFile != null && Files.exists(selectedFile.toPath())) {
             String filepath = "./data/Music/" + title + ".wav";
-            // Ideally, you should copy the selected file to the desired location.
-            // For simplicity, we're just going to simulate the upload.
             Song song = new Song(artist, title, filepath);
             masterMusicManager.uploadSongToMaster(song);
             JOptionPane.showMessageDialog(null, title + " by " + artist + " has been successfully uploaded");

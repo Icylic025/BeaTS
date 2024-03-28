@@ -18,6 +18,17 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The PlaylistGUI class represents a graphical user interface (GUI) for managing playlists.
+ * It allows users to interact with the master playlist and the local playlist by adding, deleting,
+ * shuffling, filtering songs by BPM, playing all songs, saving playlists to JSON files, and loading
+ * playlists from JSON files. The class provides methods to handle user actions such as adding and
+ * deleting songs, displaying playlists, and managing playlist-related operations. Additionally,
+ * it includes inner classes and helper methods for handling specific functionalities like selecting
+ * songs from the master playlist, deleting songs from the local playlist, and creating GUI components
+ * for playlist management. The PlaylistGUI class facilitates a seamless user experience for managing
+ * music playlists within the application.
+ */
 public class PlaylistGUI extends JFrame {
     private static final String JSON_STORE = "./data/localplaylist.json";
     private static final String JSON_STORE_M = "./data/masterplaylist.json";
@@ -31,12 +42,24 @@ public class PlaylistGUI extends JFrame {
     JsonWriter jsonWriterMaster = new JsonWriter(JSON_STORE_M);
     JsonReader jsonReaderMaster = new JsonReader(JSON_STORE_M);
 
+    /**
+     * Modifies: this (PlaylistGUI object)
+     * Effects: Constructs a PlaylistGUI window with a reference to the MasterMusicManager, a new
+     *          local music manager to store songs and be displayed and initializes
+     *          the user interface for the master playlist.
+     */
     public PlaylistGUI(MasterMusicManager masterMusicManager) {
         this.masterMusicManager = masterMusicManager;
         this.localMusicManager = new LocalMusicManager(masterMusicManager.getMasterPlaylist());
         initializeUI("Master Playlist (Here are all your uploaded music:)");
     }
 
+    /**
+     * Modifies: this (PlaylistGUI object)
+     * Effects: Constructs a PlaylistGUI window with references to the LocalMusicManager to display
+     *          and MasterMusicManager to keep track of all songs and initializes
+     *          the user interface for the current playlist.
+     */
     public PlaylistGUI(LocalMusicManager localMusicManager, MasterMusicManager masterMusicManager) {
         System.out.println("playlist ui");
         this.masterMusicManager = masterMusicManager;
@@ -46,6 +69,11 @@ public class PlaylistGUI extends JFrame {
         System.out.println("init");
     }
 
+    /**
+     * Modifies: this (JFrame properties, songListModel)
+     * Effects: Initializes the user interface components, including title, size, layout,
+     *          and visibility, and sets up the song list model.
+     */
     private void initializeUI(String title) {
         setTitle("Playlist");
         setSize(1000, 550); // Increased the width to accommodate the GIF panel
@@ -88,6 +116,12 @@ public class PlaylistGUI extends JFrame {
         setLocationRelativeTo(null); // Center on screen
     }
 
+
+    /**
+     * Modifies: this (adds song list panel and control panel to main panel)
+     * Effects: Initializes and configures the panels for song list, control buttons,
+     *          and GIF display, and adds them to the main panel.
+     */
     private JPanel createControlPanel() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -127,11 +161,17 @@ public class PlaylistGUI extends JFrame {
         return panel;
     }
 
+    /**
+     * Effects: Creates and displays a new JFrame window for selecting songs from the master playlist.
+     */
     private void addSongAction(ActionEvent event) {
         JFrame masterPlaylistFrame = createMasterPlaylistFrame();
         masterPlaylistFrame.setVisible(true);
     }
 
+    /**
+     * Effects: Creates a new JFrame window for selecting songs to delete from the current playlist.
+     */
     private JFrame createMasterPlaylistFrame() {
         JFrame masterPlaylistFrame = new JFrame("Master Playlist");
         masterPlaylistFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -153,6 +193,10 @@ public class PlaylistGUI extends JFrame {
         return masterPlaylistFrame;
     }
 
+
+    /**
+     * Effects: Initiates the process of adding a selected song from the master playlist to the local playlist.
+     */
     private class MasterSongListSelectionListener implements ListSelectionListener {
         private DefaultListModel<Song> masterSongListModel;
         private JFrame masterPlaylistFrame;
@@ -182,11 +226,17 @@ public class PlaylistGUI extends JFrame {
         }
     }
 
+    /**
+     * Effects: Creates and displays a new JFrame window for deleting songs from the current playlist.
+     */
     private void deleteSongAction(ActionEvent event) {
         JFrame deleteSongFrame = createDeleteSongFrame();
         deleteSongFrame.setVisible(true);
     }
 
+    /**
+     * Effects: Creates a new JFrame window for deleting songs from the current playlist.
+     */
     private JFrame createDeleteSongFrame() {
         JFrame deleteSongFrame = new JFrame("Delete Song");
         deleteSongFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -202,6 +252,9 @@ public class PlaylistGUI extends JFrame {
         return deleteSongFrame;
     }
 
+    /**
+     * Effects: Creates and returns a JList containing songs from the current playlist.
+     */
     private JList<Song> createSongList() {
         DefaultListModel<Song> songListModel = new DefaultListModel<>();
         JList<Song> songList = new JList<>(songListModel);
@@ -212,6 +265,9 @@ public class PlaylistGUI extends JFrame {
         return songList;
     }
 
+    /**
+     * Effects: Creates and returns a JButton for deleting a selected song from the current playlist.
+     */
     private JButton createDeleteButton(JFrame deleteSongFrame, JList<Song> songList) {
         JButton deleteButton = new JButton("Delete Song");
         deleteButton.addActionListener(new ActionListener() {
@@ -235,6 +291,11 @@ public class PlaylistGUI extends JFrame {
         return deleteButton;
     }
 
+    /**
+     * Modifies: this (opens a new PlaylistGUI with shuffled songs)
+     * Effects: Shuffles the songs in the current playlist and opens a new PlaylistGUI window
+     *          to display the shuffled playlist.
+     */
     private void shuffleAction(ActionEvent event) {
         try {
             new PlaylistGUI(localMusicManager.shuffle(), masterMusicManager);
@@ -244,6 +305,10 @@ public class PlaylistGUI extends JFrame {
         }
     }
 
+    /**
+     * Modifies: localMusicManager (plays all songs)
+     * Effects: Initiates playing all songs in the current playlist.
+     */
     private void playAllAction(ActionEvent event) {
 
         try {
@@ -255,6 +320,11 @@ public class PlaylistGUI extends JFrame {
         }
     }
 
+    /**
+     * Modifies: localMusicManager (filters the playlist)
+     * Effects: Prompts the user for a BPM filter value, filters the current playlist
+     *          accordingly, and opens a new PlaylistGUI window to display the filtered playlist.
+     */
     private void filterAction(ActionEvent event) {
         int bpm;
 
@@ -283,6 +353,12 @@ public class PlaylistGUI extends JFrame {
         }
     }
 
+    /**
+     * Modifies: masterMusicManager, localMusicManager (saves playlist to JSON files),
+     *           this (opens a new PlaylistGUI window)
+     * Effects: Saves the master playlist to a JSON file, saves the current playlist to a
+     *          separate JSON file, and opens a new PlaylistGUI window with the updated playlists.
+     */
     private void saveAction(ActionEvent event) {
         try {
             // Save the master playlist
@@ -307,6 +383,12 @@ public class PlaylistGUI extends JFrame {
 
     }
 
+    /**
+     * Modifies: masterMusicManager, localMusicManager (loads playlists from JSON files),
+     *           this (updates current PlaylistGUI)
+     * Effects: Loads the master playlist from a JSON file, loads the current playlist
+     *          from a separate JSON file, and updates the current PlaylistGUI with the loaded playlists.
+     */
     private void loadAction(ActionEvent event) {
         try {
             masterMusicManager = jsonReader.readMaster();
@@ -327,6 +409,9 @@ public class PlaylistGUI extends JFrame {
         }
     }
 
+    /**
+     * Effects: Handles the song selection event by playing the selected song from the playlist.
+     */
     private class SongSelectionListener implements ListSelectionListener {
         @Override
         public void valueChanged(ListSelectionEvent e) {
@@ -356,6 +441,10 @@ public class PlaylistGUI extends JFrame {
         }
     }
 
+    /**
+     * Modifies: songListModel
+     * Effects: Updates the song list model with the songs from the current playlist.
+     */
     private void updateSongList() {
         songListModel.clear();
         List<Song> songs = localMusicManager.getPlaylist().getSongs();

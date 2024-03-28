@@ -103,6 +103,10 @@ public class Song {
         isPlaying = b;
     }
 
+
+    /**
+     * Effects: Turns a song into a Json Object
+     */
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("artist", artist);
@@ -112,6 +116,10 @@ public class Song {
         return json;
     }
 
+    /**
+     * EFFECTS: For printing and others, override to only return title
+     *
+     */
     @Override
     public String toString() {
         return title;

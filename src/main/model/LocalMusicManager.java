@@ -5,9 +5,6 @@ import persistence.Writable;
 import ui.threads.Playlist;
 import ui.threads.Song;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 import java.util.List;
 
 /**

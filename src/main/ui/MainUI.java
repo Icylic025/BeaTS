@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
- * The MainUI class represents the main user interface. It runs
+ * The MainUI class represents the main user interface with GUI. It runs
  * at the start of the program and is the only thing Main calls.
  * The MainUI then calls upon other UIs depending on the user
  * inputs and directs the flow of the program.
@@ -38,10 +38,9 @@ public class MainUI extends JFrame {
     Song dontLeaveMe = new Song("BTS", "Don't Leave Me", "./data/Music/Don't Leave Me.wav");
 
     /**
-    * Modifies: masterMusicManager
-    * Effects: Constructs a MainUI object, initializes a scanner for user input,
-    * and uploads predefined songs to the master music manager.
-    */
+     * Modifies: This constructor modifies the masterMusicManager by initializing it and uploading predefined songs.
+     * Effects: Constructs a MainUI object, sets up the initial GUI components, and preloads a list of songs into the master music manager.
+     */
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         super("Music Manager");
         masterMusicManager = new MasterMusicManager();
@@ -74,7 +73,11 @@ public class MainUI extends JFrame {
 
     }
 
-
+    /**
+     * Modifies: masterMusicManager, jsonWriter, jsonReader, and other UI panels.
+     * Effects: Initializes components of the MainUI, including buttons for various functionalities and setting up
+     *          JSON utilities for saving and loading.
+     */
     private void initComponents() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         masterMusicManager.uploadSongToMaster(new Song("BTS", "Whistle", "./data/Music/Whistle.wav"));
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -91,18 +94,26 @@ public class MainUI extends JFrame {
     }
 
 
-
+    /**
+     * Effects: Adds a button to the specified panel with the given label and action listener.
+     */
     private void addButton(JPanel panel, String label, ActionListener listener) {
         JButton button = new JButton(label);
         button.addActionListener(listener);
         panel.add(button);
     }
 
+    /**
+     * Effects: Opens the UploadSongGUI to allow the user to upload a song.
+     */
     private void uploadSong(ActionEvent e) {
         System.out.println("upload song pressed");
         new UploadSongGUI(masterMusicManager);
     }
 
+    /**
+     * Effects: Launches a new thread to display the PlaylistGUI, allowing the user to view songs.
+     */
     private void viewSongs(ActionEvent e) {
 
         SwingUtilities.invokeLater(() -> {
@@ -117,7 +128,10 @@ public class MainUI extends JFrame {
     }
 
 
-
+    /**
+     * Modifies: The file located at JSON_STORE by writing the current state of masterMusicManager to it.
+     * Effects: Saves the current master playlist to a JSON file, showing a message dialog upon success or failure.
+     */
     private void saveMasterPlaylist(ActionEvent e) {
         try {
             jsonWriter.open();
@@ -131,6 +145,10 @@ public class MainUI extends JFrame {
         }
     }
 
+    /**
+     * Modifies: masterMusicManager by loading the state from the file located at JSON_STORE.
+     * Effects: Loads the master playlist from a JSON file, showing a message dialog upon success or failure.
+     */
     private void loadMasterPlaylist(ActionEvent e) {
         try {
             masterMusicManager = jsonReader.readMaster();
@@ -140,6 +158,9 @@ public class MainUI extends JFrame {
         }
     }
 
+    /**
+     * Effects: Opens a new JFrame containing the ManualBeatsUI for the user to manually detect beats of a song.
+     */
     private void manualBeatDetection(ActionEvent e) {
         ManualBeatsUI manualBeatsUI = new ManualBeatsUI(masterMusicManager); // Create an instance of ManualBeatsUI
         JFrame frame = new JFrame("Manual Beat Tap");
