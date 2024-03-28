@@ -19,9 +19,9 @@ public class LocalMusicManagerTest {
 
     @BeforeEach
     void setUp() {
-        song1 = new Song("BTS", "Magic Shop", "./data/Music/Whistle.wav");
+        song1 = new Song("BTS", "Magic Shop", "./data/Music/Arson.wav");
         song2 = new Song("BTS", "PolarNight", "./data/Music/Whistle.wav");
-        song3 = new Song("BTS", "Shadow", "./data/Music/Music/Whistle.wav");
+        song3 = new Song("BTS", "Shadow", "./data/Music/Whistle.wav");
         song4 = new Song("BTS", "Silver Spoon", "./data/Music/Whistle.wav");
         songs.add(song1);
         songs.add(song2);
@@ -56,9 +56,9 @@ public class LocalMusicManagerTest {
     void testShuffle() {
         // Create a sample playlist
         Playlist playlist = new Playlist();
-        playlist.addSong(new Song("Song 1"));
-        playlist.addSong(new Song("Song 2"));
-        playlist.addSong(new Song("Song 3"));
+        playlist.addSong(song1);
+        playlist.addSong(song2);
+        playlist.addSong(song3);
 
         // Create a LocalMusicManager with the sample playlist
         LocalMusicManager localManager = new LocalMusicManager(playlist);
@@ -74,18 +74,19 @@ public class LocalMusicManagerTest {
     void testFilter() {
         // Create a sample playlist
         Playlist playlist = new Playlist();
-        playlist.addSong(new Song("Song 1", 120));
-        playlist.addSong(new Song("Song 2", 140));
-        playlist.addSong(new Song("Song 3", 100));
+        playlist.addSong(song1);
+        playlist.addSong(song2);
+        playlist.addSong(song3);
+
 
         // Create a LocalMusicManager with the sample playlist
         LocalMusicManager localManager = new LocalMusicManager(playlist);
 
         // Filter the playlist by BPM
-        localManager.filter(120);
+        localManager.filter(100);
 
         // Assert that only the song with BPM 120 is present in the filtered playlist
         assertEquals(1, localManager.getPlaylist().getSongs().size());
-        assertEquals("Song 1", localManager.getPlaylist().getSongs().get(0).getTitle());
+        assertEquals(song1, localManager.getPlaylist().getSongs().get(0));
     }
 }
