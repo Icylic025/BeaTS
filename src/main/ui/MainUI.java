@@ -39,7 +39,8 @@ public class MainUI extends JFrame {
 
     /**
      * Modifies: This constructor modifies the masterMusicManager by initializing it and uploading predefined songs.
-     * Effects: Constructs a MainUI object, sets up the initial GUI components, and preloads a list of songs into the master music manager.
+     * Effects: Constructs a MainUI object, sets up the initial GUI components, and preloads a list of songs into
+     *          the master music manager.
      */
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         super("Music Manager");

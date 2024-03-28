@@ -14,10 +14,10 @@ import java.util.List;
  * The ManualBeatsUI class represents a user interface panel for manually detecting the beats per minute (BPM) of music.
  * It allows users to tap along with the beat of the music and records the timing of each tap. Once the user taps the
  * button a specified number of times, the class calculates the BPM based on the time intervals between taps. It then
- * displays songs from the master playlist with a BPM close to the calculated BPM in a new PlaylistGUI window. This class
- * enhances user interaction by providing a simple and intuitive interface for selecting songs based on their BPM,
- * facilitating music management within the application. Additionally, it leverages the ManualBpmCalc class to accurately
- * calculate BPM from recorded tap times, ensuring precise song selection based on user input.
+ * displays songs from the master playlist with a BPM close to the calculated BPM in a new PlaylistGUI window.
+ * This class enhances user interaction by providing a simple and intuitive interface for selecting songs based
+ * on their BPM, facilitating music management within the application. Additionally, it leverages the ManualBpmCalc
+ * class to accurately calculate BPM from recorded tap times, ensuring precise song selection based on user input.
  */
 public class ManualBeatsUI extends JPanel {
     private MasterMusicManager masterMusicManager;
