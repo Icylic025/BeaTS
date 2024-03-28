@@ -51,4 +51,41 @@ public class LocalMusicManagerTest {
         assertEquals(1, localMusicManager.getPlaylist().getSongs().size());
         assertEquals("Magic Shop", localMusicManager.getPlaylist().getSongs().get(0).getTitle());
     }
+
+    @Test
+    void testShuffle() {
+        // Create a sample playlist
+        Playlist playlist = new Playlist();
+        playlist.addSong(new Song("Song 1"));
+        playlist.addSong(new Song("Song 2"));
+        playlist.addSong(new Song("Song 3"));
+
+        // Create a LocalMusicManager with the sample playlist
+        LocalMusicManager localManager = new LocalMusicManager(playlist);
+
+        // Shuffle the playlist
+        localManager.shuffle();
+
+        // Assert that all songs are still present in the shuffled playlist
+        assertEquals(3, localManager.getPlaylist().getSongs().size());
+    }
+
+    @Test
+    void testFilter() {
+        // Create a sample playlist
+        Playlist playlist = new Playlist();
+        playlist.addSong(new Song("Song 1", 120));
+        playlist.addSong(new Song("Song 2", 140));
+        playlist.addSong(new Song("Song 3", 100));
+
+        // Create a LocalMusicManager with the sample playlist
+        LocalMusicManager localManager = new LocalMusicManager(playlist);
+
+        // Filter the playlist by BPM
+        localManager.filter(120);
+
+        // Assert that only the song with BPM 120 is present in the filtered playlist
+        assertEquals(1, localManager.getPlaylist().getSongs().size());
+        assertEquals("Song 1", localManager.getPlaylist().getSongs().get(0).getTitle());
+    }
 }

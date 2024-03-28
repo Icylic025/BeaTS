@@ -48,7 +48,7 @@ public class PlaylistGUI extends JFrame {
 
     private void initializeUI(String title) {
         setTitle("Playlist");
-        setSize(600, 400);
+        setSize(800, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         songListModel = new DefaultListModel<>();
@@ -224,7 +224,7 @@ public class PlaylistGUI extends JFrame {
     private void playAllAction(ActionEvent event) {
 
         try {
-            localMusicManager.playAll();
+            localMusicManager.getPlaylist().playAll();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(PlaylistGUI.this,
                     "Something went wrong with the music files");

@@ -62,14 +62,7 @@ public class LocalMusicManager implements Writable {
         return this;
     }
 
-    /**
-     * Requires: Non-null Playlist object
-     * Modifies: playlist
-     * Effects: plays all the music in this.
-     */
-    public void playAll() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        playlist.playAll();
-    }
+
 
     /**
      * Requires: Non-null Song object
