@@ -48,19 +48,42 @@ public class PlaylistGUI extends JFrame {
 
     private void initializeUI(String title) {
         setTitle("Playlist");
-        setSize(800, 400);
+        setSize(1000, 550); // Increased the width to accommodate the GIF panel
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         songListModel = new DefaultListModel<>();
         songList = new JList<>(songListModel);
         updateSongList();
 
-
         songList.addListSelectionListener(new SongSelectionListener());
 
+        JPanel mainPanel = new JPanel(new BorderLayout());
 
-        add(new JScrollPane(songList), BorderLayout.CENTER);
-        add(createControlPanel(), BorderLayout.SOUTH);
+        // Panel for the song list
+        JPanel songListPanel = new JPanel(new BorderLayout());
+        songListPanel.add(new JScrollPane(songList), BorderLayout.CENTER);
+
+        // Panel for the control panel
+        JPanel controlPanel = createControlPanel();
+
+        // Combine song list panel and control panel
+        mainPanel.add(songListPanel, BorderLayout.CENTER);
+        mainPanel.add(controlPanel, BorderLayout.SOUTH);
+
+        // Panel for the GIF
+        JPanel gifPanel = new JPanel();
+        // Load the GIF file
+        ImageIcon gifIcon = new ImageIcon("./data/Image/spin.gif");
+        JLabel gifLabel = new JLabel(gifIcon);
+        gifPanel.add(gifLabel);
+
+        // Calculate halfway spot
+        int halfwaySpot = getWidth() / 2; // Assuming it's halfway horizontally
+        // Add GIF panel to the right of halfway spot
+        mainPanel.add(gifPanel, BorderLayout.EAST);
+
+        // Add the main panel to the frame
+        add(mainPanel);
 
         setLocationRelativeTo(null); // Center on screen
     }
