@@ -111,6 +111,11 @@ public class Song {
         json.put("bpm", bpm);
         return json;
     }
+
+    @Override
+    public String toString() {
+        return title;
+    }
 }
 
 

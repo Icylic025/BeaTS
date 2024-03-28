@@ -5,6 +5,9 @@ import persistence.Writable;
 import ui.threads.Playlist;
 import ui.threads.Song;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,6 +39,36 @@ public class LocalMusicManager implements Writable {
     public LocalMusicManager(Playlist playlist) {
         this.playlist = playlist;
 
+    }
+
+    /**
+     * Requires: Non-null Playlist object
+     * Modifies: playlist
+     * Effects: shuffles the order of playlist randomly and returns this localManager.
+     */
+    public LocalMusicManager shuffle() {
+        playlist.shuffle();
+        return this;
+    }
+
+    /**
+     * Requires: Non-null Playlist object
+     * Modifies: playlist
+     * Effects: filter and returns itself by bpm.
+     */
+    public LocalMusicManager filter(int bpm) {
+        Playlist newPlaylist = new Playlist(playlist.filterByBpm(bpm).getSongs());
+        playlist = newPlaylist;
+        return this;
+    }
+
+    /**
+     * Requires: Non-null Playlist object
+     * Modifies: playlist
+     * Effects: plays all the music in this.
+     */
+    public void playAll() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
+        playlist.playAll();
     }
 
     /**

@@ -1,98 +1,80 @@
 package ui;
 
-import ui.threads.Playlist;
-import model.ManualBpmCalc;
 import model.LocalMusicManager;
+import model.ManualBpmCalc;
 import model.MasterMusicManager;
 
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-/**
- * The ManualBeatsUI class facilitates manual beat detection for songs.
- * It allows users to tap the Enter key to determine the BPM (beats per minute) of a song.
- * Upon initialization, it prompts the user to tap the Enter key 10 times and records the timing of each tap.
- * Using this data, it calculates the BPM and creates a new PlaylistUI displaying the songs around the
- * calculated BPM.
- */
+public class ManualBeatsUI extends JPanel {
+    private MasterMusicManager masterMusicManager;
+    private JLabel infoLabel;
+    private JButton tapButton;
+    private List<Double> tapTimes;
+    private static final int MAX_TAPS = 10;
+    int bpm;
 
-
-public class ManualBeatsUI {
-    private ManualBpmCalc beatCalc;
-    Playlist playlist;
-    MasterMusicManager masterMusicManager;
-
-
-    /**
-     * Requires: masterMusicManager to be initialized with a valid instance of MasterMusicManager
-     * Effects: Constructs a ManualBeatsUI object, initializes manual beat detection process,
-     *          and calculates BPM based on user-entered beats.
-     */
-    public ManualBeatsUI(MasterMusicManager masterMusicManager)
-            throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-
-        playlist = masterMusicManager.getMasterPlaylist();
+    public ManualBeatsUI(MasterMusicManager masterMusicManager) {
         this.masterMusicManager = masterMusicManager;
-        manualBpmDetection();
+        this.tapTimes = new ArrayList<>();
+        initializeUI();
     }
 
-    /**
-     * Effects: Performs manual beat detection by prompting the user to tap Enter key 10 times,
-     *          records the timing of each tap, and calculates the BPM.
-     */
-    public void manualBpmDetection()
-            throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        int bpm = 0;
-        List<Double> manualBeats = new ArrayList<Double>();
-        Scanner scanner = new Scanner(System.in);
-        int tapCount = 0;
-        final int MAX_TAPS = 10;
-        LocalMusicManager filteredManager;
+    private void initializeUI() {
+        setLayout(new BorderLayout());
 
-        System.out.println("As consistently as possible, please tap the Enter Button 10 times according to a Beat: ");
-        System.out.println("Press Enter to Start... ");
-        scanner.nextLine();
+        infoLabel = new JLabel("Tap the button 10 times to the beat of the music.");
+        add(infoLabel, BorderLayout.NORTH);
 
-        while (tapCount < MAX_TAPS) { // Use < instead of <= to ensure loop runs exactly MAX_TAPS times
+        tapButton = new JButton("Tap");
+        tapButton.addActionListener(this::handleTap);
+        add(tapButton, BorderLayout.CENTER);
+    }
 
-            if (scanner.nextLine().equals("")) {
-                tapCount++; // Increment tapCount as soon as Enter is detected
-                System.out.println("Taps Detected: " + tapCount + "/10");
+    private void handleTap(ActionEvent e) {
+        if (tapTimes.size() <= MAX_TAPS) {
+            tapTimes.add((double) System.currentTimeMillis());
+            infoLabel.setText("Taps: " + tapTimes.size() + "/" + MAX_TAPS);
+            if (tapTimes.size() == MAX_TAPS) {
 
-                double currentTime = System.currentTimeMillis();
-                manualBeats.add(currentTime);
-            } else {
-                System.out.println("Oops, looks like you pressed the wrong button, lets start again.");
-                manualBpmDetection();
-                return;
+                tapButton.setEnabled(false); // Prevent more taps
+
+                processTapsAndDisplaySongs();
             }
         }
-
-        beatCalc = new ManualBpmCalc(manualBeats);
-
-        displaySongs(beatCalc);
     }
 
-    /**
-     * Requires: beatCalc to be initialized with a valid instance of ManualBpmCalc
-     * Effects: Displays songs around the calculated BPM based on manual beat detection results.
-     */
-    public void displaySongs(ManualBpmCalc beatCalc)
-            throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        LocalMusicManager filteredManager = new LocalMusicManager(playlist.filterByBpm(this.beatCalc.getBpm()));
+    private void processTapsAndDisplaySongs() {
+        System.out.println("pro");
+        bpm = calculateBpm();
+        displaySongsAroundBPM(bpm);
+    }
 
-        System.out.println("Here are the songs around this BPM (" + this.beatCalc.getBpm() + "): ");
+    private void displaySongsAroundBPM(int bpm) {
+        LocalMusicManager local = new LocalMusicManager(masterMusicManager.getMasterPlaylist());
+        PlaylistGUI playlistGUI = new PlaylistGUI(local.filter(bpm), masterMusicManager);
+        playlistGUI.setVisible(true); // Show the playlist GUI
 
-        if (filteredManager.getPlaylist().getSize() == 0) {
-            System.out.println("Sorry, you don't have any songs around that BPM.");
-            return;
+        Window window = SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
         }
-        new PlaylistUI(filteredManager, masterMusicManager);
-
     }
-}
 
+    private int calculateBpm() {
+        if (tapTimes.size() < 2) {
+            // Display a message to the user indicating that at least two taps are required
+            return 0;
+        }
+
+        ManualBpmCalc bpmCalculator = new ManualBpmCalc(tapTimes);
+        return bpmCalculator.getBpm();
+    }
+
+
+}
