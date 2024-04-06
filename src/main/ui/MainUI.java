@@ -4,13 +4,18 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.threads.Song;
 import model.MasterMusicManager;
+import model.EventLog;
+import model.Event;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -45,6 +50,13 @@ public class MainUI extends JFrame {
     public MainUI() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
         super("Music Manager");
         masterMusicManager = new MasterMusicManager();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printEvents(); // This will now use your custom Event class
+            }
+        });
         try {
             initComponents();
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
@@ -52,7 +64,7 @@ public class MainUI extends JFrame {
             e.printStackTrace();
         }
 
-
+        masterMusicManager.uploadSongToMaster(whistle);
         masterMusicManager.uploadSongToMaster(cypher4);
         masterMusicManager.uploadSongToMaster(arson);
         masterMusicManager.uploadSongToMaster(twentyOne);
@@ -74,13 +86,19 @@ public class MainUI extends JFrame {
 
     }
 
+    private void printEvents() {
+        System.out.println("Application is closing. Here are all logged events:");
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.toString());
+        }
+    }
+
     /**
      * Modifies: masterMusicManager, jsonWriter, jsonReader, and other UI panels.
      * Effects: Initializes components of the MainUI, including buttons for various functionalities and setting up
      *          JSON utilities for saving and loading.
      */
     private void initComponents() throws UnsupportedAudioFileException, LineUnavailableException, IOException {
-        masterMusicManager.uploadSongToMaster(new Song("BTS", "Whistle", "./data/Music/Whistle.wav"));
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
@@ -108,7 +126,6 @@ public class MainUI extends JFrame {
      * Effects: Opens the UploadSongGUI to allow the user to upload a song.
      */
     private void uploadSong(ActionEvent e) {
-        System.out.println("upload song pressed");
         new UploadSongGUI(masterMusicManager);
     }
 

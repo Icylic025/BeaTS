@@ -1,0 +1,32 @@
+{"songs": [
+    {
+        "filepath": "./data/Music/Arson.wav",
+        "artist": "BTS",
+        "title": "Arson",
+        "bpm": 100
+    },
+    {
+        "filepath": "./data/Music/Don't Leave Me.wav",
+        "artist": "BTS",
+        "title": "Don't Leave Me",
+        "bpm": 143
+    },
+    {
+        "filepath": "./data/Music/Whistle.wav",
+        "artist": "BTS",
+        "title": "Whistle",
+        "bpm": 0
+    },
+    {
+        "filepath": "./data/Music/Cypher 4.wav",
+        "artist": "BTS",
+        "title": "Cypher 4",
+        "bpm": 118
+    },
+    {
+        "filepath": "./data/Music/21st Century Girl.wav",
+        "artist": "BTS",
+        "title": "21st Century Girls",
+        "bpm": 100
+    }
+]}

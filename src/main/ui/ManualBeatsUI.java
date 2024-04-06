@@ -90,7 +90,7 @@ public class ManualBeatsUI extends JPanel {
      */
     private void displaySongsAroundBPM(int bpm) {
         LocalMusicManager local = new LocalMusicManager(masterMusicManager.getMasterPlaylist());
-        PlaylistGUI playlistGUI = new PlaylistGUI(local.filter(bpm), masterMusicManager);
+        PlaylistGUI playlistGUI = new PlaylistGUI(local.filter(bpm), masterMusicManager, "");
         playlistGUI.setVisible(true); // Show the playlist GUI
 
         Window window = SwingUtilities.getWindowAncestor(this);

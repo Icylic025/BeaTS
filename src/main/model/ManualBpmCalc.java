@@ -26,6 +26,8 @@ public class ManualBpmCalc {
      *          based on the provided list of time intervals between taps.
      */
     public ManualBpmCalc(List<Double> timeList) {
+        EventLog.getInstance().logEvent(new Event("An instance of manual beat detection has been ran"));
+
         bpm = calcManualBpm(timeList);
     }
 

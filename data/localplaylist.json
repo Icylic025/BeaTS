@@ -1,0 +1,14 @@
+{"songs": [
+    {
+        "filepath": "./data/Music/Arson.wav",
+        "artist": "BTS",
+        "title": "Arson",
+        "bpm": 100
+    },
+    {
+        "filepath": "./data/Music/Whistle.wav",
+        "artist": "BTS",
+        "title": "Whistle",
+        "bpm": 0
+    }
+]}

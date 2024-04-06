@@ -40,6 +40,7 @@ public class MasterMusicManager implements Writable {
      * Effects: Uploads the given song to the master playlist.
      */
     public void uploadSongToMaster(Song song) {
+        EventLog.getInstance().logEvent(new Event("Song was uploaded to masterplaylist"));
         masterPlaylist.addSong(song);
     }
 
@@ -59,6 +60,8 @@ public class MasterMusicManager implements Writable {
      * Effects: Deletes the song at the specified index from the master playlist.
      */
     public void deleteSongFromMasterPlaylist(int index) {
+
+        EventLog.getInstance().logEvent(new Event("Song was deleted from master playlist"));
         masterPlaylist.deleteSong(index);
     }
 
@@ -68,6 +71,7 @@ public class MasterMusicManager implements Writable {
      */
     @Override
     public JSONObject toJson() {
+        EventLog.getInstance().logEvent(new Event("Master playlist was converted to Json"));
         return masterPlaylist.toJson();
     }
 }

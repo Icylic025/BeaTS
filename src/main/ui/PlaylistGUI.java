@@ -51,7 +51,7 @@ public class PlaylistGUI extends JFrame {
     public PlaylistGUI(MasterMusicManager masterMusicManager) {
         this.masterMusicManager = masterMusicManager;
         this.localMusicManager = new LocalMusicManager(masterMusicManager.getMasterPlaylist());
-        initializeUI("Master Playlist (Here are all your uploaded music:)");
+        initializeUI("Playlist");
     }
 
     /**
@@ -60,13 +60,13 @@ public class PlaylistGUI extends JFrame {
      *          and MasterMusicManager to keep track of all songs and initializes
      *          the user interface for the current playlist.
      */
-    public PlaylistGUI(LocalMusicManager localMusicManager, MasterMusicManager masterMusicManager) {
-        System.out.println("playlist ui");
+    public PlaylistGUI(LocalMusicManager localMusicManager, MasterMusicManager masterMusicManager, String filter) {
+
         this.masterMusicManager = masterMusicManager;
         this.localMusicManager = localMusicManager;
         // updateSongList();
-        initializeUI("Current Playlist (You can manipulate your playlist here:)");
-        System.out.println("init");
+        initializeUI("Playlist " + filter);
+
     }
 
     /**
@@ -75,7 +75,7 @@ public class PlaylistGUI extends JFrame {
      *          and visibility, and sets up the song list model.
      */
     private void initializeUI(String title) {
-        setTitle("Playlist");
+        setTitle(title);
         setSize(1000, 550); // Increased the width to accommodate the GIF panel
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -298,7 +298,7 @@ public class PlaylistGUI extends JFrame {
      */
     private void shuffleAction(ActionEvent event) {
         try {
-            new PlaylistGUI(localMusicManager.shuffle(), masterMusicManager);
+            new PlaylistGUI(localMusicManager.shuffle(), masterMusicManager, "");
             updateSongList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -344,9 +344,8 @@ public class PlaylistGUI extends JFrame {
         }
 
         try {
-            System.out.println(bpm);
             LocalMusicManager newLoc = localMusicManager.filter(bpm); // Filter the playlist in place
-            new PlaylistGUI(newLoc, masterMusicManager);
+            new PlaylistGUI(newLoc, masterMusicManager, String.valueOf(bpm));
             updateSongList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -379,7 +378,7 @@ public class PlaylistGUI extends JFrame {
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(PlaylistGUI.this,"Unable to write current playlist to file: " + JSON_STORE);
         }
-        new PlaylistGUI(localMusicManager, masterMusicManager);
+        new PlaylistGUI(localMusicManager, masterMusicManager, "");
 
     }
 
@@ -422,7 +421,6 @@ public class PlaylistGUI extends JFrame {
                     // Placeholder for what to do when a song is clicked
                     try {
                         selectedSong.playSong();
-                        System.out.println("song played");
                     } catch (UnsupportedAudioFileException ex) {
                         JOptionPane.showMessageDialog(PlaylistGUI.this,
                                 "The audio file is unsupported, make sure it is a .wav file");

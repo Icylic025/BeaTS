@@ -1,5 +1,7 @@
 package persistence;
 
+import model.Event;
+import model.EventLog;
 import model.LocalMusicManager;
 import model.MasterMusicManager;
 import org.json.JSONArray;
@@ -36,6 +38,7 @@ public class JsonReader {
      * if there is a problem with reading in the json file
      */
     public MasterMusicManager readMaster() throws IOException {
+        EventLog.getInstance().logEvent(new Event("A saved Master Playlist has been uploaded"));
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseMaster(jsonObject);
@@ -47,6 +50,8 @@ public class JsonReader {
      * if there is a problem with reading in the json file
      */
     public LocalMusicManager readLocal() throws IOException {
+        EventLog.getInstance().logEvent(new Event("A saved Local Playlist has been uploaded"));
+
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
         return parseLocal(jsonObject);

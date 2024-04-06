@@ -1,5 +1,8 @@
 package ui.threads;
 
+import model.Event;
+import model.EventLog;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +51,7 @@ public class MusicPlayer {
      *          Waits for the duration of the clip and releases the lock immediately after starting playback.
      */
     public void play() {
+        EventLog.logEvent(new Event("A songs is played"));
         clip.start();
         // Add this line to release the lock immediately after starting playback
         synchronized (clip) {

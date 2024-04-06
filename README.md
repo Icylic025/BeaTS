@@ -63,3 +63,46 @@ having a music pace setter will be very practical.
    uploaded into the computer is undisturbed). This is achieved by the save and load button on the main menu screen
      (first screen)
 5. Visual component included is the spinning record on the right of the View Songs page accessed from the main menu.
+
+### Phase 4: Task 2
+The following actions will be logged (note that after every message, a line of time in the format day of week, month,
+time, timezone, year will be printed):
+
+To add the provided log sample to your README.md under "Phase 4: Task 2", and considering the instructions, your README.md file should include the section formatted as follows:
+
+markdown
+Copy code
+### Phase 4: Task 2
+Here is a representative sample of the events that occur when the program runs:
+Application is closing. Here are all logged events:
+
+Song was uploaded to masterplaylist 
+Sat Apr 06 14:02:07 PDT 2024
+Local Playlist Shuffled 
+Sat Apr 06 14:02:15 PDT 2024
+Local Playlist filtered to 100 bpm 
+Sat Apr 06 14:02:19 PDT 2024
+A song is played 
+Sat Apr 06 14:02:24 PDT 2024
+Master playlist was converted to Json 
+Sat Apr 06 14:02:44 PDT 2024
+Local Playlist converted to Json 
+Sat Apr 06 14:02:44 PDT 2024
+A saved Master Playlist has been uploaded 
+Sat Apr 06 14:02:48 PDT 2024
+Song was uploaded to masterplaylist 
+Sat Apr 06 14:02:49 PDT 2024
+A saved Local Playlist has been uploaded 
+Sat Apr 06 14:02:49 PDT 2024
+A song is added to local playlist 
+Sat Apr 06 14:02:51 PDT 2024
+Master playlist was converted to Json 
+Sat Apr 06 14:02:55 PDT 2024
+A saved Master Playlist has been uploaded 
+Sat Apr 06 14:02:59 PDT 2024
+Song was uploaded to masterplaylist 
+Sat Apr 06 14:03:01 PDT 2024
+An instance of manual beat detection has been ran 
+Sat Apr 06 14:03:15 PDT 2024
+Local Playlist filtered to 114 bpm 
+Sat Apr 06 14:03:15 PDT 2024

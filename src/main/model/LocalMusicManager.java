@@ -45,6 +45,7 @@ public class LocalMusicManager implements Writable {
      */
     public LocalMusicManager shuffle() {
         playlist.shuffle();
+        EventLog.getInstance().logEvent(new Event("Local Playlist Shuffled"));
         return this;
     }
 
@@ -56,6 +57,7 @@ public class LocalMusicManager implements Writable {
     public LocalMusicManager filter(int bpm) {
         Playlist newPlaylist = new Playlist(playlist.filterByBpm(bpm).getSongs());
         playlist = newPlaylist;
+        EventLog.getInstance().logEvent(new Event("Local Playlist filtered to " + bpm + " bpm"));
         return this;
     }
 
@@ -67,6 +69,7 @@ public class LocalMusicManager implements Writable {
      * Effects: Uploads the given song to the playlist.
      */
     public void uploadLocalSong(Song song) {
+        EventLog.getInstance().logEvent(new Event("A songs is added to local playlist"));
         playlist.addSong(song);
     }
 
@@ -95,6 +98,7 @@ public class LocalMusicManager implements Writable {
      */
     public void deleteSongFromPlaylist(int index) {
         playlist.deleteSong(index);
+        EventLog.getInstance().logEvent(new Event("Song at index " + index + " deleted"));
     }
 
     /**
@@ -102,7 +106,9 @@ public class LocalMusicManager implements Writable {
      */
     @Override
     public JSONObject toJson() {
+        EventLog.getInstance().logEvent(new Event("Local Playlist converted to Json"));
         return playlist.toJson();
+
     }
 
 }
