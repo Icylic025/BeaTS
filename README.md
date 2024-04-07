@@ -67,7 +67,7 @@ having a music pace setter will be very practical.
 ### Phase 4: Task 2
 Application is closing. Here are all logged events:
 
-- Song was uploaded to masterplaylist 
+- Song was uploaded to masterplaylist
 - Sat Apr 06 14:02:07 PDT 2024
 - Local Playlist Shuffled 
 - Sat Apr 06 14:02:15 PDT 2024
@@ -97,3 +97,16 @@ Application is closing. Here are all logged events:
 - Sat Apr 06 14:03:15 PDT 2024
 - Local Playlist filtered to 114 bpm 
 - Sat Apr 06 14:03:15 PDT 2024
+
+### Phase 4: Task 3
+One design element I can improve on is implementing a Singleton pattern on my MasterMusicManager, or at least make it
+static. When we were learning the Singleton pattern, the first thing I thought of was how I should have implemented this
+inside my project, but unfortunately it was a little late to change the structure of the project due to the time limit.
+
+For my project, there should only exist one MasterMusicManager throughout the application as it is the ultimate playlist
+that contains all the songs the user uploaded and there should not be multiple objects that contain those songs. 
+I didn't know about Singleton design when I was writing this class and as a result I just passed the same 
+MasterMusicManager between many different classes and be extra careful to not create a new MasterMusicManager in my 
+class. This is not the best strategy, since basically all my UI needs to have access to MasterMusicManager and I pass it
+many times between them. It can potentially lead to trouble if documentation is not read clearly and people work further 
+on the project accidentally making an new MasterMusicManager.
