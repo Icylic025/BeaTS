@@ -25,7 +25,7 @@ import java.util.List;
 
 public class LocalMusicManager implements Writable {
     private Playlist playlist;
-    private List<Song> uploadedSongs;
+
 
     /**
      * Requires: Valid Playlist object

@@ -29,7 +29,7 @@ import java.io.IOException;
 public class MainUI extends JFrame {
 
     private static final String JSON_STORE = "./data/masterplaylist.json";
-    private MasterMusicManager masterMusicManager = new MasterMusicManager();
+    private MasterMusicManager masterMusicManager;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 

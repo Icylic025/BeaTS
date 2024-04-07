@@ -29,7 +29,7 @@ import java.util.concurrent.Future;
  *   outliers, and calculating percentiles.
  */
 public class Beats {
-    private List<Double> beats = new ArrayList<Double>();
+    private List<Double> beats;
     private int bpm;
 
 
