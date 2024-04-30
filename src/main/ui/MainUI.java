@@ -65,7 +65,7 @@ public class MainUI extends JFrame {
         }
 
         masterMusicManager.uploadSongToMaster(whistle);
-        masterMusicManager.uploadSongToMaster(cypher4);
+        // masterMusicManager.uploadSongToMaster(cypher4);
         masterMusicManager.uploadSongToMaster(arson);
         masterMusicManager.uploadSongToMaster(twentyOne);
         masterMusicManager.uploadSongToMaster(dontLeaveMe);
