@@ -1,4 +1,4 @@
-# BPM Finder
+# BeaTS
 
 ## A Software that finds BPM of songs with some practical applications
 
